@@ -3,323 +3,542 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Sasha Innoworks — Dashboard (Compact UI)</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>Sasha Innoworks — Dashboard (Live)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#071022; --panel:#0f1b2b; --muted:#9fb0c8; --text:#eaf3ff;
-    --accent:#00bcd4; --accent-2:#4dd0e1; --card:#0c2535;
-    --glass: rgba(255,255,255,0.03);
-    --radius:12px;
+    --bg:#061026;
+    --panel:#0e2033;
+    --muted:#9fc0d9;
+    --text:#eaf7ff;            /* light readable text */
+    --sub:#cfeaf9;             /* subtitle / soft text */
+    --accent:#2fb8ff;          /* bright cyan accent */
+    --accent-2:#6ecbff;
+    --ok:#6be58b;
+    --bad:#ff6b6b;
+    --radius:14px;
   }
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;background:linear-gradient(180deg,#06101a 0%, #071022 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Roboto}
-  .wrap{max-width:1200px;margin:18px auto;padding:16px;display:grid;gap:16px}
-  /* top nav */
-  header.nav{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#012;box-shadow:0 8px 30px rgba(0,188,212,0.06)}
-  .title{font-weight:700;font-size:20px}
-  .subtitle{font-size:12px;color:var(--muted)}
-  .top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:8px;color:var(--text);cursor:pointer}
+  body{
+    margin:0;min-height:100vh;
+    background:linear-gradient(180deg,#031021 0%,var(--bg) 100%);
+    color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    -webkit-font-smoothing:antialiased;
+  }
 
-  /* layout: two columns top, bottom cards */
-  .main{display:grid;grid-template-columns:1fr 360px;gap:16px;margin-top:8px}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  .wrap{max-width:1180px;margin:18px auto;padding:16px;display:grid;gap:14px}
+  header.top{display:flex;align-items:center;gap:14px;padding:12px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.006));border:1px solid rgba(47,184,255,0.06)}
+  .logo{width:60px;height:60px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#012}
+  .title{font-size:28px;font-weight:800;margin:0}
+  .company{font-size:12px;color:var(--sub);margin-top:4px}
+
+  .layout{display:grid;grid-template-columns:1fr 380px;gap:16px;margin-top:8px}
+  .panel{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006));padding:12px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.02)}
   
   /* Live feed */
-  .live{min-height:360px;display:flex;flex-direction:column;gap:12px}
-  .feed{flex:1;border-radius:10px;border:2px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-  .feed .camera{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.28);padding:6px 8px;border-radius:8px;font-weight:700}
-  .belt{position:absolute;left:18px;right:18px;bottom:28px;height:56px;border-radius:999px;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(255,255,255,0.01));border:2px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-around;padding:6px}
-  .bottles{display:flex;align-items:flex-end;gap:32px;transform:translateX(0)}
-  svg.bottle{width:66px;height:156px;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.6));}
-  /* controls row */
-  .controls{display:flex;align-items:center;justify-content:space-between}
-  .controls .left{display:flex;align-items:center;gap:12px}
-  .dots{display:flex;gap:8px}
-  .dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.06);cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
-  .dot.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 6px 18px rgba(0,188,212,0.08)}
-  .ctrl-btn{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+  .feed-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .feed-area{height:360px;border-radius:12px;border:2px solid rgba(255,255,255,0.03);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .camera{position:absolute;right:16px;top:12px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);color:var(--sub);font-weight:700}
+  .track{position:absolute;left:18px;right:18px;bottom:30px;height:60px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));display:flex;align-items:center;justify-content:space-around;padding:8px 24px;border:1px solid rgba(255,255,255,0.02)}
+  .wheel{width:26px;height:26px;border-radius:50%;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02))}
+  .bottle-strip{display:flex;gap:44px;align-items:flex-end;will-change:transform}
+  /* bottle container size */
+  .bottle-box{width:72px;height:160px;display:flex;align-items:flex-end;justify-content:center}
+  button.small{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:10px;color:var(--sub);cursor:pointer}
+
+  /* controls */
+  .controls{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+  .flow {display:flex;gap:10px;align-items:center;color:var(--sub);font-weight:700}
+  .dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+  .dot.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 22px rgba(47,184,255,0.08)}
+  .actions{display:flex;gap:10px}
 
   /* metrics column */
   .metrics{display:flex;flex-direction:column;gap:12px}
-  .metric-row{display:flex;gap:12px;align-items:center;justify-content:space-between}
-  .metric-title{font-weight:700;color:var(--muted)}
-  .progress{height:12px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;margin-top:8px}
-  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 600ms ease}
+  .metric-card{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
+  .metric-title{font-weight:800;color:var(--sub);margin-bottom:6px}
+  .big-val{font-size:26px;font-weight:800}
+  .progress{height:12px;border-radius:999px;background:rgba(255,255,255,0.03);overflow:hidden}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 600ms ease}
+
+  .events{max-height:170px;overflow:auto;margin-top:8px}
+  .events li{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.02);color:var(--sub)}
 
   /* bottom area */
-  .bottom{display:grid;grid-template-columns:1fr 420px;gap:16px;margin-top:12px}
-  .table{overflow:auto}
+  .bottom{margin-top:12px;display:grid;grid-template-columns:1fr 420px;gap:16px}
   table{width:100%;border-collapse:collapse}
-  thead th{padding:10px 8px;text-align:left;color:var(--muted);font-weight:700;border-bottom:1px solid rgba(255,255,255,0.03)}
-  tbody td{padding:12px 8px;border-bottom:1px solid rgba(255,255,255,0.02);font-size:14px}
+  thead th{color:var(--sub);font-weight:800;text-align:left;padding:10px;border-bottom:1px solid rgba(255,255,255,0.03)}
+  tbody td{padding:12px 8px;border-bottom:1px solid rgba(255,255,255,0.02);color:var(--text)}
 
-  .graph-card{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.008), transparent)}
+  .graph-panel{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
   canvas{width:100%;height:180px;display:block}
 
-  /* responsive */
+  /* clickable bottle highlight */
+  .bottle-selected{outline:3px solid rgba(47,184,255,0.12);border-radius:12px;padding:4px}
+
   @media (max-width:980px){
-    .main{grid-template-columns:1fr}
+    .layout{grid-template-columns:1fr}
     .bottom{grid-template-columns:1fr}
     .metrics{order:2}
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="nav">
-    <div class="brand">
-      <div class="logo">SI</div>
-      <div>
-        <div class="title">Dashboard</div>
-        <div class="subtitle">Sasha Innoworks</div>
-      </div>
-    </div>
-
-    <div class="top-actions">
-      <button class="ghost">Settings</button>
-      <button class="ghost">Operator</button>
-    </div>
-  </header>
-
-  <div class="main">
-    <!-- Live feed / conveyor -->
-    <div class="card live">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:800;font-size:18px">Conveyor Feed</div>
-        <div style="color:var(--muted);font-size:13px">Status: <strong style="color:var(--accent)">Running</strong></div>
-      </div>
-
-      <div class="feed" id="feed">
-        <div class="camera">CAM</div>
-        <div class="bottles" id="bottlesRow" aria-hidden="true">
-          <!-- Bottles will be inlined by markup below -->
-          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="78" width="40" height="64" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
-          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent" stroke-dasharray="6 6"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="88" width="40" height="54" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
-          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="68" width="40" height="74" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
-          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="98" width="40" height="44" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
-          <!-- duplicates to give continuous feel -->
-          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="70" width="40" height="72" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
-        </div>
-
-        <div class="belt" aria-hidden="true">
-          <div class="wheel" style="width:26px;height:26px"></div>
-          <div class="wheel" style="width:26px;height:26px"></div>
-          <div class="wheel" style="width:26px;height:26px"></div>
+  <div class="wrap">
+    <header class="top">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="logo">SI</div>
+        <div>
+          <div class="title">Dashboard</div>
+          <div class="company">Sasha Innoworks</div>
         </div>
       </div>
+      <div style="margin-left:auto;display:flex;gap:12px;align-items:center">
+        <div style="color:var(--sub);font-weight:700">Operator: <span style="color:var(--text)">Operator 1</span></div>
+        <button class="small">Profile</button>
+      </div>
+    </header>
 
-      <div class="controls">
-        <div class="left">
-          <div style="font-weight:700">Flow Speed</div>
-          <div class="dots" id="speedDots">
-            <div class="dot" data-speed="1"></div>
-            <div class="dot active" data-speed="2"></div>
-            <div class="dot" data-speed="3"></div>
-            <div class="dot" data-speed="4"></div>
+    <div class="layout">
+      <!-- left -->
+      <section class="panel">
+        <div class="feed-top">
+          <div style="font-weight:800;font-size:18px">Conveyor Feed</div>
+          <div style="color:var(--sub)">Status: <strong style="color:var(--accent)">Running</strong></div>
+        </div>
+
+        <div class="feed-area" id="feedArea">
+          <div class="camera">CAM</div>
+
+          <div style="width:92%;max-width:880px;position:relative">
+            <div class="bottle-strip" id="bottleStrip" aria-hidden="true">
+              <!-- bottles inserted by static SVGs (with data-id and fill) -->
+              <!-- We'll use <svg> bottles with a rect representing liquid; clicking selects -->
+              <div class="bottle-box"><svg class="bottle-svg" data-id="0" viewBox="0 0 72 160" width="72" height="160">
+                <path d="M26 0h20a6 6 0 0 1 6 6v16a10 10 0 0 1 10 10v110a12 12 0 0 1-12 12H22a12 12 0 0 1-12-12V32a10 10 0 0 1 10-10V6a6 6 0 0 1 6-6z" fill="none" stroke="#eaf7ff" stroke-width="3" rx="6"/>
+                <rect class="liquid-rect" x="16" y="60" rx="8" width="40" height="80" fill="#2fb8ff" opacity="0.95"></rect>
+              </svg></div>
+
+              <div class="bottle-box"><svg class="bottle-svg" data-id="1" viewBox="0 0 72 160" width="72" height="160">
+                <path d="M26 0h20a6 6 0 0 1 6 6v16a10 10 0 0 1 10 10v110a12 12 0 0 1-12 12H22a12 12 0 0 1-12-12V32a10 10 0 0 1 10-10V6a6 6 0 0 1 6-6z" fill="none" stroke="#eaf7ff" stroke-width="3" stroke-dasharray="6 6"/>
+                <rect class="liquid-rect" x="16" y="82" rx="8" width="40" height="58" fill="#2fb8ff" opacity="0.95"></rect>
+              </svg></div>
+
+              <div class="bottle-box"><svg class="bottle-svg" data-id="2" viewBox="0 0 72 160" width="72" height="160">
+                <path d="M26 0h20a6 6 0 0 1 6 6v16a10 10 0 0 1 10 10v110a12 12 0 0 1-12 12H22a12 12 0 0 1-12-12V32a10 10 0 0 1 10-10V6a6 6 0 0 1 6-6z" fill="none" stroke="#eaf7ff" stroke-width="3"/>
+                <rect class="liquid-rect" x="16" y="68" rx="8" width="40" height="72" fill="#2fb8ff" opacity="0.95"></rect>
+              </svg></div>
+
+              <div class="bottle-box"><svg class="bottle-svg" data-id="3" viewBox="0 0 72 160" width="72" height="160">
+                <path d="M26 0h20a6 6 0 0 1 6 6v16a10 10 0 0 1 10 10v110a12 12 0 0 1-12 12H22a12 12 0 0 1-12-12V32a10 10 0 0 1 10-10V6a6 6 0 0 1 6-6z" fill="none" stroke="#eaf7ff" stroke-width="3"/>
+                <rect class="liquid-rect" x="16" y="94" rx="8" width="40" height="46" fill="#2fb8ff" opacity="0.95"></rect>
+              </svg></div>
+
+              <!-- duplicate set so scrolling looks continuous -->
+              <div class="bottle-box"><svg class="bottle-svg" data-id="4" viewBox="0 0 72 160" width="72" height="160">
+                <path d="M26 0h20a6 6 0 0 1 6 6v16a10 10 0 0 1 10 10v110a12 12 0 0 1-12 12H22a12 12 0 0 1-12-12V32a10 10 0 0 1 10-10V6a6 6 0 0 1 6-6z" fill="none" stroke="#eaf7ff" stroke-width="3"/>
+                <rect class="liquid-rect" x="16" y="72" rx="8" width="40" height="68" fill="#2fb8ff" opacity="0.95"></rect>
+              </svg></div>
+
+              <div class="bottle-box"><svg class="bottle-svg" data-id="5" viewBox="0 0 72 160" width="72" height="160">
+                <path d="M26 0h20a6 6 0 0 1 6 6v16a10 10 0 0 1 10 10v110a12 12 0 0 1-12 12H22a12 12 0 0 1-12-12V32a10 10 0 0 1 10-10V6a6 6 0 0 1 6-6z" fill="none" stroke="#eaf7ff" stroke-width="3"/>
+                <rect class="liquid-rect" x="16" y="86" rx="8" width="40" height="54" fill="#2fb8ff" opacity="0.95"></rect>
+              </svg></div>
+            </div>
+
+            <div class="track" aria-hidden="true">
+              <div class="wheel"></div><div class="wheel"></div><div class="wheel"></div><div class="wheel"></div>
+            </div>
           </div>
         </div>
-        <div>
-          <button class="ctrl-btn" id="pauseBtn">Pause</button>
-          <button class="ctrl-btn" id="resumeBtn">Resume</button>
-          <button class="ctrl-btn" id="stopBtn">Stop</button>
+
+        <div class="controls">
+          <div class="flow">
+            <div style="font-weight:800">Flow Speed</div>
+            <div style="display:flex;gap:8px;margin-left:8px">
+              <div class="dot" data-speed="1"></div>
+              <div class="dot active" data-speed="2"></div>
+              <div class="dot" data-speed="3"></div>
+              <div class="dot" data-speed="4"></div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="small" id="pauseBtn">Pause</button>
+            <button class="small" id="resumeBtn">Resume</button>
+            <button class="small" id="stopBtn">Stop</button>
+          </div>
         </div>
-      </div>
+      </section>
+
+      <!-- right: metrics & graph selection -->
+      <aside class="metrics">
+        <div class="metric-card">
+          <div class="metric-title">Liquid Level (selected)</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="big-val" id="selectedVal">—%</div>
+            <div style="font-size:12px;color:var(--sub)" id="selectedId">Bottle —</div>
+          </div>
+          <div style="height:10px;margin-top:8px" class="progress"><i id="selectedBar" style="width:0%"></i></div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-title">Text Detection</div>
+          <div style="margin-top:6px;color:var(--text);font-weight:700" id="detected">BEVARAGE</div>
+          <div style="color:var(--sub);margin-top:6px">MFG: <span id="mfg">2024-04-24</span> • Exp: <span id="exp">2025-04-24</span></div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-title">Event Log</div>
+          <ul class="events" id="events">
+            <li>10 — Underfill bottle detected</li>
+            <li>142 — Label: BEVERAGE</li>
+            <li>23 — Conveyor resumed</li>
+          </ul>
+        </div>
+
+        <div class="metric-card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="metric-title">Real-time Liquid Graph</div>
+            <div style="color:var(--sub);font-size:12px">Last 60</div>
+          </div>
+          <div style="margin-top:8px">
+            <canvas id="liveGraph" width="360" height="140"></canvas>
+          </div>
+        </div>
+      </aside>
     </div>
 
-    <!-- metrics -->
-    <aside class="metrics">
-      <div class="card metric">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div class="metric-title">Liquid Level</div><div style="font-weight:800;font-size:20px" id="liquidVal">75%</div></div>
-          <div style="text-align:right" class="subtitle">Realtime</div>
+    <!-- bottom -->
+    <div class="bottom">
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-weight:800">Production Summary</div>
+          <div style="color:var(--sub);font-size:13px">Recent</div>
         </div>
-        <div class="progress"><i id="liquidBar"></i></div>
+        <table>
+          <thead>
+            <tr><th>Time</th><th>Status</th><th>Fill %</th><th>Label</th><th>Dimensions</th></tr>
+          </thead>
+          <tbody id="summary">
+            <tr><td>10:42:31</td><td style="color:var(--ok)">OK</td><td>98%</td><td>Identified</td><td>10x12</td></tr>
+            <tr><td>10:42:30</td><td style="color:var(--bad)">Underfilled</td><td>55%</td><td>Not Identified</td><td>10x11</td></tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="card">
-        <div class="metric-title">Text Detection</div>
-        <div class="text-box" style="margin-top:8px">
-          <div style="font-weight:800" id="detLabel">BEVARAGE</div>
-          <div class="meta" style="color:var(--muted);margin-top:6px">MFG: <span id="mfg">2024-04-24</span></div>
-          <div class="meta">Expiry: <span id="exp">2025-04-24</span></div>
+      <div class="graph-panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-weight:800">Overall Liquid Trend</div>
+          <div style="color:var(--sub);font-size:12px">Combined</div>
         </div>
+        <canvas id="overallGraph" width="420" height="180"></canvas>
       </div>
-
-      <div class="card">
-        <div class="metric-title">Event Log</div>
-        <ul id="evList" style="list-style:none;padding:0;margin:10px 0 0 0;max-height:200px;overflow:auto">
-          <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.02)">10 &nbsp; Underfill bottle detected</li>
-          <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.02)">142 &nbsp; Label: BEVERAGE</li>
-          <li style="padding:8px 0">23 &nbsp; Conveyor resumed</li>
-        </ul>
-      </div>
-    </aside>
+    </div>
   </div>
-
-  <!-- bottom area: table + graph -->
-  <div class="bottom">
-    <div class="card table">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div style="font-weight:800">Production Summary</div>
-        <div style="color:var(--muted)">Recent</div>
-      </div>
-      <table>
-        <thead>
-          <tr><th>Time</th><th>Status</th><th>Fill %</th><th>Label</th><th>Dimensions</th></tr>
-        </thead>
-        <tbody id="summaryTable">
-          <tr><td>10:42:31</td><td>OK</td><td>98%</td><td>Identified</td><td>10x12</td></tr>
-          <tr><td>10:42:30</td><td>Underfilled</td><td>55%</td><td>Not Identified</td><td>10x11</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="graph-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div style="font-weight:800">Liquid trend</div>
-        <div style="color:var(--muted)">Last 30</div>
-      </div>
-      <canvas id="trend" width="600" height="180"></canvas>
-    </div>
-  </div>
-</div>
 
 <script>
-/* ---------- data & UI hooks (same data model as before) ---------- */
-let currentLevel = 75;
-const liquidBar = document.getElementById('liquidBar');
-const liquidVal = document.getElementById('liquidVal');
-const evList = document.getElementById('evList');
-const summaryTable = document.getElementById('summaryTable');
-const detLabel = document.getElementById('detLabel');
-const mfg = document.getElementById('mfg'); const exp = document.getElementById('exp');
+/* ---------- Simulated data model ---------- */
+const bottleElements = Array.from(document.querySelectorAll('.bottle-svg'));
+const selectedValEl = document.getElementById('selectedVal');
+const selectedBarEl = document.getElementById('selectedBar');
+const selectedIdEl = document.getElementById('selectedId');
+const liveCanvas = document.getElementById('liveGraph');
+const overallCanvas = document.getElementById('overallGraph');
+const liveCtx = liveCanvas.getContext('2d');
+const overallCtx = overallCanvas.getContext('2d');
 
-let history = [];
-(function seedHistory(){
-  let base = 72;
-  for(let i=0;i<24;i++){ base += Math.round((Math.random()-0.5)*6); history.push(Math.max(10,Math.min(98,base))); }
-})();
+let paused = false;
+let stripSpeed = 0.8;
+let stripOffset = 0;
+const bottleCount = bottleElements.length;
 
-/* update UI */
-function updateLevel(){
-  const noise = Math.round(Math.sin(Date.now()/7000)*8 + (Math.random()-0.5)*4);
-  currentLevel = Math.max(10, Math.min(98, 72 + noise));
-  liquidBar.style.width = currentLevel + '%';
-  liquidVal.textContent = currentLevel + '%';
-  history.push(currentLevel); if(history.length>30) history.shift();
-  drawTrend();
-}
-setInterval(updateLevel, 2500);
-updateLevel();
-
-/* event helpers */
-function addEvent(text){
-  const t = new Date().toLocaleTimeString();
-  const li = document.createElement('li');
-  li.style.padding='8px 0'; li.style.borderBottom='1px solid rgba(255,255,255,0.02)';
-  li.textContent = `${t}  ${text}`;
-  evList.prepend(li);
-  // table row
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${t}</td><td>${text}</td><td>${currentLevel}%</td><td>—</td><td>—</td>`;
-  summaryTable.prepend(tr);
-  while(summaryTable.rows.length>10) summaryTable.deleteRow(summaryTable.rows.length-1);
+/* each bottle has a real-time level (initial) */
+const bottles = [];
+for(let i=0;i<bottleCount;i++){
+  // random initial levels between 40..90
+  bottles.push({id:i, level: Math.round(40 + Math.random()*50), history:[]});
 }
 
-/* buttons */
-document.getElementById('pauseBtn').addEventListener('click', ()=>addEvent('Conveyor paused'));
-document.getElementById('resumeBtn').addEventListener('click', ()=>addEvent('Conveyor resumed'));
-document.getElementById('stopBtn').addEventListener('click', ()=>addEvent('Conveyor stopped'));
+/* select first bottle by default */
+let selectedId = 0;
+function selectBottle(id){
+  selectedId = id;
+  document.querySelectorAll('.bottle-box').forEach((el, idx)=>{
+    el.classList.toggle('bottle-selected', idx === id);
+  });
+  updateSelectedUI();
+}
+selectBottle(0);
 
-/* flow dots speed control affects bottle movement speed */
-const dots = document.querySelectorAll('.dot');
-let trackSpeed = 0.9;
-dots.forEach((d, idx)=>{
-  d.addEventListener('click', ()=>{
-    dots.forEach(x=>x.classList.remove('active')); d.classList.add('active');
-    trackSpeed = 0.6 + idx*0.9;
+/* update selected UI */
+function updateSelectedUI(){
+  const b = bottles[selectedId];
+  selectedValEl.textContent = b.level + '%';
+  selectedBarEl.style.width = b.level + '%';
+  selectedIdEl.textContent = 'Bottle ' + (b.id+1);
+}
+
+/* animate the bottle strip (left-right movement) */
+const stripEl = document.getElementById('bottleStrip');
+function animateStrip(){
+  if(!paused){
+    stripOffset -= stripSpeed;
+    // reset when large
+    const w = stripEl.scrollWidth;
+    if(Math.abs(stripOffset) > w/2) stripOffset = 0;
+    stripEl.style.transform = `translateX(${stripOffset}px)`;
+  }
+  requestAnimationFrame(animateStrip);
+}
+animateStrip();
+
+/* click handlers to choose bottle */
+bottleElements.forEach(svg=>{
+  svg.addEventListener('click', e=>{
+    const id = Number(svg.getAttribute('data-id')) || 0;
+    // if this is a duplicate in second half (id >= count/2) map to original by mod
+    selectBottle(id % bottleCount);
   });
 });
 
-/* animate bottles horizontally (looping) */
-const bottlesRow = document.getElementById('bottlesRow');
-let trackOffset = 0;
-function animateBottles(){
-  trackOffset -= trackSpeed;
-  // loop when too far negative
-  const width = bottlesRow.scrollWidth;
-  if(Math.abs(trackOffset) > width/2) trackOffset = 0;
-  bottlesRow.style.transform = `translateX(${trackOffset}px)`;
-  requestAnimationFrame(animateBottles);
-}
-animateBottles();
+/* flow dots */
+document.querySelectorAll('.dot').forEach((d, idx)=>{
+  d.addEventListener('click', ()=>{
+    document.querySelectorAll('.dot').forEach(x=>x.classList.remove('active'));
+    d.classList.add('active');
+    stripSpeed = 0.5 + idx * 0.8;
+  });
+});
 
-/* draw trend on canvas */
-const canvas = document.getElementById('trend');
-const ctx = canvas.getContext('2d');
-function resizeCanvas(){
-  const rect = canvas.getBoundingClientRect();
-  const ratio = devicePixelRatio || 1;
-  canvas.width = Math.floor(rect.width*ratio);
-  canvas.height = Math.floor(rect.height*ratio);
-  ctx.setTransform(ratio,0,0,ratio,0,0);
-  drawTrend();
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+/* pause/resume/stop */
+document.getElementById('pauseBtn').addEventListener('click', ()=> paused = true);
+document.getElementById('resumeBtn').addEventListener('click', ()=> paused = false);
+document.getElementById('stopBtn').addEventListener('click', ()=> { paused = true; stripOffset = 0; });
 
-function drawTrend(){
-  const w = canvas.width / (devicePixelRatio||1);
-  const h = canvas.height / (devicePixelRatio||1);
-  ctx.clearRect(0,0,w,h);
-  // background
-  ctx.fillStyle = 'rgba(255,255,255,0.01)';
-  ctx.fillRect(0,0,w,h);
+/* update bottle levels every 2s and redraw fills + push history */
+function updateLevels(){
+  bottles.forEach((b, idx)=>{
+    // small variation that simulates real sensor noise
+    const change = Math.round(Math.sin(Date.now()/7000 + idx) * 4 + (Math.random()-0.5)*4);
+    b.level = Math.max(8, Math.min(98, b.level + change));
+    // cap history to last 60
+    b.history.push(b.level);
+    if(b.history.length > 60) b.history.shift();
 
-  if(history.length<2) return;
-  const margin = 12;
-  const plotW = w - margin*2;
-  const plotH = h - margin*2;
-  const step = plotW / (history.length-1);
+    // update the liquid-rect position for this bottle's svg(s)
+    // because we duplicated bottles for continuity, update all rects that have data-id mod mapping
+    document.querySelectorAll(`.bottle-svg[data-id="${idx}"]`).forEach(svg=>{
+      const rect = svg.querySelector('.liquid-rect');
+      if(rect){
+        // compute height and y so that rect bottom aligns
+        const maxH = 96; // visual full height
+        const h = Math.round(maxH * (b.level / 100));
+        const y = 160 - 12 - h; // 160 is svg height; 12 offset for bottom padding
+        rect.setAttribute('height', h);
+        rect.setAttribute('y', y);
+      }
+    });
+  });
 
-  // area fill
-  ctx.beginPath();
-  for(let i=0;i<history.length;i++){
-    const x = margin + i*step;
-    const y = margin + (1 - history[i]/100) * plotH;
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  // update selected UI
+  updateSelectedUI();
+
+  // update event log occasionally (simulate)
+  if(Math.random() < 0.12){
+    const ev = document.getElementById('events');
+    const t = new Date().toLocaleTimeString();
+    const li = document.createElement('li');
+    li.textContent = `${t}  Auto-sample: Bottle ${Math.ceil(Math.random()*bottleCount)} reading`;
+    ev.prepend(li);
+    if(ev.children.length > 12) ev.removeChild(ev.lastChild);
   }
-  ctx.lineTo(margin + (history.length-1)*step, margin+plotH);
-  ctx.lineTo(margin, margin+plotH);
-  ctx.closePath();
-  const g = ctx.createLinearGradient(0,0,0,h);
-  g.addColorStop(0,'rgba(0,188,212,0.18)'); g.addColorStop(1,'rgba(0,188,212,0.02)');
-  ctx.fillStyle = g; ctx.fill();
+
+  // update graphs
+  drawLiveGraph();
+  drawOverallGraph();
+}
+
+/* schedule updates */
+setInterval(updateLevels, 2000);
+updateLevels();
+
+/* ---------- Graph drawing ---------- */
+function drawLiveGraph(){
+  // draws selected bottle's history onto liveCanvas
+  const w = liveCanvas.width = liveCanvas.clientWidth * (window.devicePixelRatio || 1);
+  const h = liveCanvas.height = liveCanvas.clientHeight * (window.devicePixelRatio || 1);
+  liveCtx.setTransform(window.devicePixelRatio || 1,0,0,window.devicePixelRatio || 1,0,0);
+  liveCtx.clearRect(0,0,liveCanvas.clientWidth, liveCanvas.clientHeight);
+
+  const b = bottles[selectedId];
+  const arr = b.history.length ? b.history.slice(-60) : [b.level];
+  if(arr.length < 2) return;
+
+  // draw grid lines lightly
+  liveCtx.fillStyle = 'rgba(255,255,255,0.01)';
+  liveCtx.fillRect(0,0,liveCanvas.clientWidth, liveCanvas.clientHeight);
+
+  const margin = 8;
+  const plotW = liveCanvas.clientWidth - margin*2;
+  const plotH = liveCanvas.clientHeight - margin*2;
+  const step = plotW/(Math.max(arr.length-1,1));
+
+  // area gradient
+  const g = liveCtx.createLinearGradient(0,0,0,liveCanvas.clientHeight);
+  g.addColorStop(0, 'rgba(47,184,255,0.22)');
+  g.addColorStop(1, 'rgba(47,184,255,0.02)');
+
+  liveCtx.beginPath();
+  for(let i=0;i<arr.length;i++){
+    const x = margin + i*step;
+    const y = margin + (1 - arr[i]/100) * plotH;
+    if(i===0) liveCtx.moveTo(x,y); else liveCtx.lineTo(x,y);
+  }
+  liveCtx.lineTo(margin + (arr.length-1)*step, margin+plotH);
+  liveCtx.lineTo(margin, margin+plotH);
+  liveCtx.closePath();
+  liveCtx.fillStyle = g; liveCtx.fill();
 
   // line
-  ctx.beginPath();
-  for(let i=0;i<history.length;i++){
+  liveCtx.beginPath();
+  for(let i=0;i<arr.length;i++){
     const x = margin + i*step;
-    const y = margin + (1 - history[i]/100) * plotH;
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    const y = margin + (1 - arr[i]/100) * plotH;
+    if(i===0) liveCtx.moveTo(x,y); else liveCtx.lineTo(x,y);
   }
-  ctx.strokeStyle = 'rgba(77,124,254,0.98)'; ctx.lineWidth=2.2; ctx.stroke();
+  liveCtx.strokeStyle = 'rgba(47,184,255,0.98)';
+  liveCtx.lineWidth = 2.2; liveCtx.stroke();
 
-  // points
-  for(let i=0;i<history.length;i++){
-    const x = margin + i*step;
-    const y = margin + (1 - history[i]/100) * plotH;
-    ctx.beginPath(); ctx.arc(x,y,2.6,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,0.95)'; ctx.fill();
-    ctx.strokeStyle='rgba(77,124,254,0.9)'; ctx.lineWidth=0.8; ctx.stroke();
-  }
+  // draw last value big on right
+  liveCtx.fillStyle = 'rgba(255,255,255,0.95)';
+  liveCtx.font = '700 16px Inter';
+  const label = arr[arr.length-1] + ' %';
+  liveCtx.fillText(label, liveCanvas.clientWidth - margin - liveCtx.measureText(label).width, margin+14);
 }
 
-/* initialize */
-drawTrend();
+function drawOverallGraph(){
+  // show average across bottles history (combined)
+  const w = overallCanvas.width = overallCanvas.clientWidth * (window.devicePixelRatio || 1);
+  const h = overallCanvas.height = overallCanvas.clientHeight * (window.devicePixelRatio || 1);
+  overallCtx.setTransform(window.devicePixelRatio || 1,0,0,window.devicePixelRatio || 1,0,0);
+  overallCtx.clearRect(0,0,overallCanvas.clientWidth, overallCanvas.clientHeight);
+
+  const combined = [];
+  // create combined history by averaging each time index across bottles (use last 60)
+  for(let i=0;i<60;i++){
+    let sum=0,count=0;
+    bottles.forEach(b=>{
+      const val = b.history[b.history.length - 60 + i];
+      if(typeof val === 'number'){ sum += val; count++; }
+    });
+    if(count) combined.push(Math.round(sum/count));
+  }
+  // fallback: if empty, construct from latest
+  if(combined.length < 2){
+    for(let i=0;i<30;i++) combined.push(60 + Math.round(Math.sin(i/6)*8));
+  }
+
+  const arr = combined;
+  const margin = 10;
+  const plotW = overallCanvas.clientWidth - margin*2;
+  const plotH = overallCanvas.clientHeight - margin*2;
+  const step = plotW / (Math.max(arr.length-1,1));
+
+  // area gradient
+  const g = overallCtx.createLinearGradient(0,0,0,overallCanvas.clientHeight);
+  g.addColorStop(0,'rgba(47,184,255,0.20)'); g.addColorStop(1,'rgba(47,184,255,0.02)');
+
+  overallCtx.beginPath();
+  for(let i=0;i<arr.length;i++){
+    const x = margin + i*step;
+    const y = margin + (1 - arr[i]/100) * plotH;
+    if(i===0) overallCtx.moveTo(x,y); else overallCtx.lineTo(x,y);
+  }
+  overallCtx.lineTo(margin + (arr.length-1)*step, margin+plotH);
+  overallCtx.lineTo(margin, margin+plotH);
+  overallCtx.closePath();
+  overallCtx.fillStyle = g; overallCtx.fill();
+
+  // line
+  overallCtx.beginPath();
+  for(let i=0;i<arr.length;i++){
+    const x = margin + i*step;
+    const y = margin + (1 - arr[i]/100) * plotH;
+    if(i===0) overallCtx.moveTo(x,y); else overallCtx.lineTo(x,y);
+  }
+  overallCtx.strokeStyle = 'rgba(47,184,255,0.98)'; overallCtx.lineWidth = 2.2; overallCtx.stroke();
+}
+
+/* responsive canvas scaling */
+function resizeAll(){
+  // set canvas CSS sizes preserved; canvases get resized in drawing
+  drawLiveGraph(); drawOverallGraph();
+}
+window.addEventListener('resize', ()=>{ setTimeout(resizeAll,150); });
+
+/* initialize histories */
+for(const b of bottles){
+  b.history = [];
+  let base = b.level;
+  for(let i=0;i<40;i++){ base += Math.round((Math.random()-0.5)*6); b.history.push(Math.max(10,Math.min(98,base))); }
+}
+
+/* run drawing loop */
+setInterval(()=>{ drawLiveGraph(); drawOverallGraph(); }, 1200);
+
+/* ensure initial fill rect positions match initial levels */
+updateLevels = function(){
+  bottles.forEach((b, idx)=>{
+    // small drift
+    const change = Math.round((Math.random()-0.5)*6);
+    b.level = Math.max(8, Math.min(98, b.level + change));
+    b.history.push(b.level); if(b.history.length>60) b.history.shift();
+    // update svg rects (there are many bottle svg elements including duplicates)
+    document.querySelectorAll(`.bottle-svg[data-id="${idx}"]`).forEach(svg=>{
+      const rect = svg.querySelector('.liquid-rect');
+      if(rect){
+        const maxH = 96;
+        const h = Math.round(maxH * (b.level / 100));
+        const y = 160 - 12 - h;
+        rect.setAttribute('height', h);
+        rect.setAttribute('y', y);
+      }
+    });
+  });
+  updateSelectedUI();
+};
+
+function updateSelectedUI(){
+  const b = bottles[selectedId];
+  selectedValEl.textContent = b.level + '%';
+  selectedBarEl.style.width = b.level + '%';
+  selectedIdEl.textContent = 'Bottle ' + (b.id+1);
+}
+
+/* make sure clicking the bottle sets selected (map duplicates) */
+document.querySelectorAll('.bottle-svg').forEach(svg=>{
+  svg.addEventListener('click', ()=> {
+    const id = Number(svg.getAttribute('data-id')) % bottleCount;
+    selectBottleById(id);
+  });
+});
+
+function selectBottleById(id){
+  selectedId = id;
+  // highlight corresponding bottle-boxes by index modular
+  document.querySelectorAll('.bottle-box').forEach((el, idx)=>{
+    el.classList.toggle('bottle-selected', (idx % bottleCount) === id);
+  });
+  updateSelectedUI();
+}
+
+/* seed initial UI and start updates */
+selectBottleById(0);
+updateLevels();
+setInterval(updateLevels, 2000);
+drawLiveGraph(); drawOverallGraph();
+
 </script>
 </body>
 </html>
