@@ -1,458 +1,325 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Dashboard — Sasha Innoworks (Dark Mode)</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sasha Innoworks — Dashboard (Compact UI)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg-very-dark:#0b0f16;
-    --muted:#9aa6b2;
-    --text:#e6eef6;
-    --accent:#4D7CFE;
-    --accent-2:#2b57ff;
+    --bg:#071022; --panel:#0f1b2b; --muted:#9fb0c8; --text:#eaf3ff;
+    --accent:#00bcd4; --accent-2:#4dd0e1; --card:#0c2535;
     --glass: rgba(255,255,255,0.03);
-    --radius:16px;
+    --radius:12px;
   }
   *{box-sizing:border-box}
-  body{
-    margin:0;
-    min-height:100vh;
-    background: radial-gradient(800px 400px at 10% 10%, rgba(77,124,254,0.03), transparent 6%), var(--bg-very-dark);
-    color:var(--text);
-    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-    -webkit-font-smoothing:antialiased;
-  }
-  .page{max-width:1150px;margin:18px auto;padding:18px}
-  header.site{
-    display:flex;align-items:center;gap:16px;padding:14px;border-radius:20px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.007));
-    border:1px solid rgba(77,124,254,0.09); box-shadow: 0 10px 30px rgba(2,6,18,0.6);
-  }
-  .logo{
-    width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(180deg,var(--accent),var(--accent-2));
-    color:#fff;font-weight:800;font-family:Montserrat, sans-serif;font-size:20px;box-shadow:0 8px 30px rgba(77,124,254,0.12);
-  }
-  .title{font-family:Montserrat, sans-serif; font-weight:800; font-size:30px; margin:0; color:var(--text)}
-  .subtitle{font-size:12px;color:var(--muted);margin-top:4px}
+  body{margin:0;min-height:100vh;background:linear-gradient(180deg,#06101a 0%, #071022 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Roboto}
+  .wrap{max-width:1200px;margin:18px auto;padding:16px;display:grid;gap:16px}
+  /* top nav */
+  header.nav{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#012;box-shadow:0 8px 30px rgba(0,188,212,0.06)}
+  .title{font-weight:700;font-size:20px}
+  .subtitle{font-size:12px;color:var(--muted)}
+  .top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:8px;color:var(--text);cursor:pointer}
 
-  .grid{display:grid;grid-template-columns:1fr 360px; gap:18px; margin-top:18px}
-  .panel{
-    background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.006));
-    border-radius:var(--radius); padding:14px; border:1px solid rgba(255,255,255,0.03);
-    box-shadow:0 8px 30px rgba(2,6,18,0.6);
-  }
+  /* layout: two columns top, bottom cards */
+  .main{display:grid;grid-template-columns:1fr 360px;gap:16px;margin-top:8px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  
+  /* Live feed */
+  .live{min-height:360px;display:flex;flex-direction:column;gap:12px}
+  .feed{flex:1;border-radius:10px;border:2px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .feed .camera{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.28);padding:6px 8px;border-radius:8px;font-weight:700}
+  .belt{position:absolute;left:18px;right:18px;bottom:28px;height:56px;border-radius:999px;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(255,255,255,0.01));border:2px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-around;padding:6px}
+  .bottles{display:flex;align-items:flex-end;gap:32px;transform:translateX(0)}
+  svg.bottle{width:66px;height:156px;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.6));}
+  /* controls row */
+  .controls{display:flex;align-items:center;justify-content:space-between}
+  .controls .left{display:flex;align-items:center;gap:12px}
+  .dots{display:flex;gap:8px}
+  .dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.06);cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+  .dot.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 6px 18px rgba(0,188,212,0.08)}
+  .ctrl-btn{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
 
-  .conveyor-frame{height:360px;border-radius:12px;border:2px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-  .video-badge{position:absolute;right:18px;top:18px;background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);font-size:14px}
-  .bottle-row{display:flex;gap:44px;align-items:flex-end;justify-content:center;height:260px;width:100%;will-change:transform}
-  /* bottle shape using svg container inside */
-  .bottle-svg{width:66px;height:160px;display:block;filter:drop-shadow(0 6px 16px rgba(0,0,0,0.6));}
-  .belt{position:absolute;left:18px;right:18px;bottom:34px;height:58px;border-radius:40px;border:3px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-around;padding:6px 24px;background:linear-gradient(90deg, rgba(0,0,0,0.25), rgba(255,255,255,0.01))}
-  .wheel{width:32px;height:32px;border-radius:50%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.3));border:2px solid rgba(255,255,255,0.02)}
+  /* metrics column */
+  .metrics{display:flex;flex-direction:column;gap:12px}
+  .metric-row{display:flex;gap:12px;align-items:center;justify-content:space-between}
+  .metric-title{font-weight:700;color:var(--muted)}
+  .progress{height:12px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;margin-top:8px}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 600ms ease}
 
-  .controls{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:12px}
-  .flow{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:600}
-  .flow .dot{width:12px;height:12px;border-radius:3px;background:#11141a;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
-  .flow .dot.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 30px rgba(77,124,254,0.12)}
-  .btns{display:flex;gap:12px}
-  .btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:0;padding:10px 18px;border-radius:10px;color:var(--text);font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(2,6,18,0.6)}
-  .btn:active{transform:translateY(1px)}
+  /* bottom area */
+  .bottom{display:grid;grid-template-columns:1fr 420px;gap:16px;margin-top:12px}
+  .table{overflow:auto}
+  table{width:100%;border-collapse:collapse}
+  thead th{padding:10px 8px;text-align:left;color:var(--muted);font-weight:700;border-bottom:1px solid rgba(255,255,255,0.03)}
+  tbody td{padding:12px 8px;border-bottom:1px solid rgba(255,255,255,0.02);font-size:14px}
 
-  aside.metrics{display:flex;flex-direction:column;gap:12px;align-self:start}
-  .metric-card{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.004));border:1px solid rgba(255,255,255,0.02)}
-  .metric-title{font-weight:800;font-size:18px;margin:0 0 8px 0;color:var(--text)}
-  .liquid .value{font-size:28px;font-weight:800;color:var(--text)}
-  .progress{height:12px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
-  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 800ms cubic-bezier(.2,.9,.3,1);box-shadow:0 8px 22px rgba(77,124,254,0.12)}
+  .graph-card{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.008), transparent)}
+  canvas{width:100%;height:180px;display:block}
 
-  .text-box{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
-  .meta{color:var(--muted);font-size:13px}
-  .events-list{list-style:none;padding:0;margin:0;max-height:130px;overflow:auto}
-  .events-list li{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.02);font-size:14px}
-
-  .summary{grid-column:1/-1;border-radius:18px;padding:14px;border:3px solid rgba(77,124,254,0.07);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.003))}
-  .summary h3{margin:0 0 10px 0;font-family:Montserrat, sans-serif;font-weight:800;color:var(--text)}
-  table{width:100%;border-collapse:collapse;color:var(--text)}
-  thead th{padding:12px 10px;text-align:left;color:var(--muted);font-weight:700;border-bottom:2px solid rgba(255,255,255,0.02)}
-  tbody td{padding:12px 10px;border-bottom:1px solid rgba(255,255,255,0.02);font-size:15px}
-
-  .graph-wrap{margin-top:14px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.004));border:1px solid rgba(255,255,255,0.02)}
-  canvas{width:100%;height:140px;display:block}
-
-  @media (max-width:920px){
-    .grid{grid-template-columns:1fr}
-    aside.metrics{order:2}
-    .summary{order:3}
+  /* responsive */
+  @media (max-width:980px){
+    .main{grid-template-columns:1fr}
+    .bottom{grid-template-columns:1fr}
+    .metrics{order:2}
   }
 </style>
 </head>
 <body>
-  <div class="page">
-    <header class="site">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="logo" title="Sasha Innoworks">SI</div>
-        <div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="title">Dashboard</div>
-          </div>
-          <div class="subtitle" style="color:var(--muted)">Sasha Innoworks</div>
+<div class="wrap">
+  <header class="nav">
+    <div class="brand">
+      <div class="logo">SI</div>
+      <div>
+        <div class="title">Dashboard</div>
+        <div class="subtitle">Sasha Innoworks</div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="ghost">Settings</button>
+      <button class="ghost">Operator</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <!-- Live feed / conveyor -->
+    <div class="card live">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;font-size:18px">Conveyor Feed</div>
+        <div style="color:var(--muted);font-size:13px">Status: <strong style="color:var(--accent)">Running</strong></div>
+      </div>
+
+      <div class="feed" id="feed">
+        <div class="camera">CAM</div>
+        <div class="bottles" id="bottlesRow" aria-hidden="true">
+          <!-- Bottles will be inlined by markup below -->
+          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="78" width="40" height="64" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
+          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent" stroke-dasharray="6 6"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="88" width="40" height="54" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
+          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="68" width="40" height="74" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
+          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="98" width="40" height="44" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
+          <!-- duplicates to give continuous feel -->
+          <svg class="bottle" viewBox="0 0 60 156"><rect x="6" y="6" width="48" height="144" rx="10" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect x="20" y="0" width="20" height="28" rx="3" stroke="#eaf3ff" stroke-width="3" fill="transparent"/><rect class="liquid" x="10" y="70" width="40" height="72" rx="6" fill="#00bcd4" opacity="0.95"/></svg>
+        </div>
+
+        <div class="belt" aria-hidden="true">
+          <div class="wheel" style="width:26px;height:26px"></div>
+          <div class="wheel" style="width:26px;height:26px"></div>
+          <div class="wheel" style="width:26px;height:26px"></div>
         </div>
       </div>
 
-      <div style="margin-left:auto;text-align:right">
-        <div style="font-size:13px;color:var(--muted)">Operator</div>
-        <div style="font-weight:700;color:var(--text)">Operator Name</div>
-      </div>
-    </header>
-
-    <div class="grid">
-      <!-- Left panel -->
-      <div class="panel">
-        <div style="font-weight:800;font-size:20px;margin-bottom:10px">Conveyor Feed</div>
-
-        <div class="conveyor-frame">
-          <div class="video-badge">LIVE</div>
-          <div style="width:92%;max-width:920px;position:relative;overflow:hidden">
-            <!-- animated track container -->
-            <div id="moving-track" style="display:flex;align-items:flex-end;gap:48px;position:relative;left:0;transition:transform 0.1s linear;">
-              <!-- repeat bottles to visually fill the belt -->
-              <!-- each bottle is an inline SVG, with fill rect we control -->
-              <svg class="bottle-svg" viewBox="0 0 60 160" preserveAspectRatio="xMidYMax" data-fill="80">
-                <rect x="6" y="6" width="48" height="148" rx="8" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <!-- neck -->
-                <rect x="20" y="0" width="20" height="30" rx="3" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <!-- liquid (clip) -->
-                <g class="liquid-layer">
-                  <rect x="10" y="90" width="40" height="60" rx="6" fill="#ffffff" opacity="0.9"></rect>
-                </g>
-              </svg>
-
-              <svg class="bottle-svg" viewBox="0 0 60 160" preserveAspectRatio="xMidYMax" data-fill="60">
-                <rect x="6" y="6" width="48" height="148" rx="8" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="6 6"/>
-                <rect x="20" y="0" width="20" height="30" rx="3" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <g class="liquid-layer">
-                  <rect x="10" y="54" width="40" height="96" rx="6" fill="#ffffff" opacity="0.9"></rect>
-                </g>
-              </svg>
-
-              <svg class="bottle-svg" viewBox="0 0 60 160" preserveAspectRatio="xMidYMax" data-fill="75">
-                <rect x="6" y="6" width="48" height="148" rx="8" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <rect x="20" y="0" width="20" height="30" rx="3" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <g class="liquid-layer">
-                  <rect x="10" y="66" width="40" height="84" rx="6" fill="#ffffff" opacity="0.9"></rect>
-                </g>
-              </svg>
-
-              <svg class="bottle-svg" viewBox="0 0 60 160" preserveAspectRatio="xMidYMax" data-fill="50">
-                <rect x="6" y="6" width="48" height="148" rx="8" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <rect x="20" y="0" width="20" height="30" rx="3" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <g class="liquid-layer">
-                  <rect x="10" y="86" width="40" height="64" rx="6" fill="#ffffff" opacity="0.9"></rect>
-                </g>
-              </svg>
-
-              <!-- duplicates so movement looks continuous -->
-              <svg class="bottle-svg" viewBox="0 0 60 160" preserveAspectRatio="xMidYMax" data-fill="85">
-                <rect x="6" y="6" width="48" height="148" rx="8" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <rect x="20" y="0" width="20" height="30" rx="3" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <g class="liquid-layer">
-                  <rect x="10" y="62" width="40" height="88" rx="6" fill="#ffffff" opacity="0.9"></rect>
-                </g>
-              </svg>
-
-              <svg class="bottle-svg" viewBox="0 0 60 160" preserveAspectRatio="xMidYMax" data-fill="40">
-                <rect x="6" y="6" width="48" height="148" rx="8" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <rect x="20" y="0" width="20" height="30" rx="3" fill="none" stroke="#ffffff" stroke-width="3"/>
-                <g class="liquid-layer">
-                  <rect x="10" y="94" width="40" height="56" rx="6" fill="#ffffff" opacity="0.9"></rect>
-                </g>
-              </svg>
-            </div>
-
-            <div class="belt" aria-hidden="true">
-              <div class="wheel"></div>
-              <div class="wheel"></div>
-              <div class="wheel"></div>
-              <div class="wheel"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="controls">
-          <div class="flow">
-            <div style="font-weight:700">Flow Speed:</div>
+      <div class="controls">
+        <div class="left">
+          <div style="font-weight:700">Flow Speed</div>
+          <div class="dots" id="speedDots">
             <div class="dot" data-speed="1"></div>
             <div class="dot active" data-speed="2"></div>
             <div class="dot" data-speed="3"></div>
             <div class="dot" data-speed="4"></div>
           </div>
+        </div>
+        <div>
+          <button class="ctrl-btn" id="pauseBtn">Pause</button>
+          <button class="ctrl-btn" id="resumeBtn">Resume</button>
+          <button class="ctrl-btn" id="stopBtn">Stop</button>
+        </div>
+      </div>
+    </div>
 
-          <div class="btns">
-            <button class="btn" id="btn-pause">Pause</button>
-            <button class="btn" id="btn-resume">Resume</button>
-            <button class="btn" id="btn-stop">Stop</button>
-          </div>
+    <!-- metrics -->
+    <aside class="metrics">
+      <div class="card metric">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="metric-title">Liquid Level</div><div style="font-weight:800;font-size:20px" id="liquidVal">75%</div></div>
+          <div style="text-align:right" class="subtitle">Realtime</div>
+        </div>
+        <div class="progress"><i id="liquidBar"></i></div>
+      </div>
+
+      <div class="card">
+        <div class="metric-title">Text Detection</div>
+        <div class="text-box" style="margin-top:8px">
+          <div style="font-weight:800" id="detLabel">BEVARAGE</div>
+          <div class="meta" style="color:var(--muted);margin-top:6px">MFG: <span id="mfg">2024-04-24</span></div>
+          <div class="meta">Expiry: <span id="exp">2025-04-24</span></div>
         </div>
       </div>
 
-      <!-- Right metrics -->
-      <aside class="metrics">
-        <div class="metric-card">
-          <div class="metric-title">Liquid Level</div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="liquid"><div class="value" id="liquid-value">75%</div></div>
-            <div class="meta">Real time</div>
-          </div>
-          <div class="progress" style="margin-top:8px"><i id="liquid-bar" style="width:75%"></i></div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-title">Text Detection</div>
-          <div class="text-box">
-            <div style="font-weight:800" id="detected-label">BEVARAGE</div>
-            <div class="meta" style="margin-top:6px">MFG Date: <span id="mfg">2024-04-24</span></div>
-            <div class="meta">Expiry Date: <span id="exp">2025-04-24</span></div>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-title">EVENT LOG</div>
-          <ul class="events-list" id="events">
-            <li>10 &nbsp;&nbsp; Underfill bottle detected</li>
-            <li>142 &nbsp; Label: BEVERAGE</li>
-            <li>23 &nbsp;&nbsp; Conveyor resumed</li>
-          </ul>
-        </div>
-
-        <div class="panel" style="display:flex;align-items:center;gap:8px;padding:10px;margin-top:6px">
-          <svg width="18" height="18" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="#4D7CFE" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5.333 0-8 2.667-8 4v2h16v-2c0-1.333-2.667-4-8-4z"/></svg>
-          <div style="font-weight:700">Operator: Operator 1</div>
-        </div>
-      </aside>
-
-      <!-- Summary -->
-      <section class="summary">
-        <h3>Production Summary</h3>
-
-        <table aria-label="production summary">
-          <thead>
-            <tr><th>Time</th><th>Status</th><th>Fill %</th><th>Label</th><th>Dimensions</th><th>Image</th></tr>
-          </thead>
-          <tbody id="summary-body">
-            <tr><td>10:42:31</td><td>OK</td><td>98%</td><td>Identified</td><td>10x12</td><td><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:linear-gradient(90deg,#88bfff,#4d7cfe);box-shadow:0 6px 14px rgba(77,124,254,0.12)"></span></td></tr>
-            <tr><td>10:42:30</td><td>Underfilled</td><td>55%</td><td>Not Identified</td><td>10x11</td><td><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:linear-gradient(90deg,#88bfff,#4d7cfe);box-shadow:0 6px 14px rgba(77,124,254,0.12)"></span></td></tr>
-          </tbody>
-        </table>
-
-        <div class="graph-wrap">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <div style="font-weight:700">Liquid Level (last 30 values)</div>
-            <div class="meta">Realtime trend</div>
-          </div>
-          <canvas id="liquid-graph" width="800" height="140"></canvas>
-        </div>
-
-      </section>
-    </div>
+      <div class="card">
+        <div class="metric-title">Event Log</div>
+        <ul id="evList" style="list-style:none;padding:0;margin:10px 0 0 0;max-height:200px;overflow:auto">
+          <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.02)">10 &nbsp; Underfill bottle detected</li>
+          <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.02)">142 &nbsp; Label: BEVERAGE</li>
+          <li style="padding:8px 0">23 &nbsp; Conveyor resumed</li>
+        </ul>
+      </div>
+    </aside>
   </div>
 
+  <!-- bottom area: table + graph -->
+  <div class="bottom">
+    <div class="card table">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-weight:800">Production Summary</div>
+        <div style="color:var(--muted)">Recent</div>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Time</th><th>Status</th><th>Fill %</th><th>Label</th><th>Dimensions</th></tr>
+        </thead>
+        <tbody id="summaryTable">
+          <tr><td>10:42:31</td><td>OK</td><td>98%</td><td>Identified</td><td>10x12</td></tr>
+          <tr><td>10:42:30</td><td>Underfilled</td><td>55%</td><td>Not Identified</td><td>10x11</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="graph-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-weight:800">Liquid trend</div>
+        <div style="color:var(--muted)">Last 30</div>
+      </div>
+      <canvas id="trend" width="600" height="180"></canvas>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ---------- Conveyor animation ---------- */
-const track = document.getElementById('moving-track');
-let speed = 1.6; // px per frame factor
-let paused = false;
-let offset = 0;
-
-function animateTrack(){
-  if(!paused){
-    offset -= speed;
-    // wrap-around: when offset < -width of the first set, reset
-    const totalWidth = track.scrollWidth;
-    // apply transform
-    track.style.transform = `translateX(${offset % totalWidth}px)`;
-  }
-  requestAnimationFrame(animateTrack);
-}
-animateTrack();
-
-/* Flow dots interaction */
-document.querySelectorAll('.flow .dot').forEach((d, idx)=>{
-  d.addEventListener('click', ()=>{
-    document.querySelectorAll('.flow .dot').forEach(n=>n.classList.remove('active'));
-    d.classList.add('active');
-    // map idx -> speed
-    speed = 0.6 + idx * 0.9;
-  });
-});
-
-/* Buttons */
-document.getElementById('btn-pause').addEventListener('click', ()=>{
-  paused = true;
-  addEvent('Conveyor paused');
-});
-document.getElementById('btn-resume').addEventListener('click', ()=>{
-  paused = false;
-  addEvent('Conveyor resumed');
-});
-document.getElementById('btn-stop').addEventListener('click', ()=>{
-  paused = true;
-  addEvent('Conveyor stopped');
-});
-
-/* ---------- Liquid level + UI ---------- */
-const liquidBar = document.getElementById('liquid-bar');
-const liquidValue = document.getElementById('liquid-value');
-const eventsEl = document.getElementById('events');
-const summaryBody = document.getElementById('summary-body');
-
+/* ---------- data & UI hooks (same data model as before) ---------- */
 let currentLevel = 75;
-let history = []; // last 30 values
+const liquidBar = document.getElementById('liquidBar');
+const liquidVal = document.getElementById('liquidVal');
+const evList = document.getElementById('evList');
+const summaryTable = document.getElementById('summaryTable');
+const detLabel = document.getElementById('detLabel');
+const mfg = document.getElementById('mfg'); const exp = document.getElementById('exp');
 
-function addEvent(text){
-  const t = new Date().toLocaleTimeString();
-  const li = document.createElement('li');
-  li.textContent = `${t}  ${text}`;
-  eventsEl.prepend(li);
-  // trim
-  while(eventsEl.children.length > 12) eventsEl.removeChild(eventsEl.lastChild);
-  // add to summary table
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${t}</td><td>${text}</td><td>${currentLevel}%</td><td>—</td><td>—</td><td>—</td>`;
-  summaryBody.prepend(tr);
-  while(summaryBody.children.length > 10) summaryBody.removeChild(summaryBody.lastChild);
-}
+let history = [];
+(function seedHistory(){
+  let base = 72;
+  for(let i=0;i<24;i++){ base += Math.round((Math.random()-0.5)*6); history.push(Math.max(10,Math.min(98,base))); }
+})();
 
-/* simulate sensor updates */
+/* update UI */
 function updateLevel(){
-  // small oscillation plus occasional random drift
   const noise = Math.round(Math.sin(Date.now()/7000)*8 + (Math.random()-0.5)*4);
   currentLevel = Math.max(10, Math.min(98, 72 + noise));
   liquidBar.style.width = currentLevel + '%';
-  liquidValue.textContent = currentLevel + '%';
-  // push to history
-  history.push(currentLevel);
-  if(history.length > 30) history.shift();
-  drawGraph();
+  liquidVal.textContent = currentLevel + '%';
+  history.push(currentLevel); if(history.length>30) history.shift();
+  drawTrend();
 }
-
-/* start updates */
 setInterval(updateLevel, 2500);
 updateLevel();
 
-/* ---------- Graph drawing (canvas) ---------- */
-const canvas = document.getElementById('liquid-graph');
-const ctx = canvas.getContext('2d');
-
-function drawGraph(){
-  // clear
-  const w = canvas.width;
-  const h = canvas.height;
-  ctx.clearRect(0,0,w,h);
-
-  // background grid
-  ctx.fillStyle = 'rgba(255,255,255,0.02)';
-  ctx.fillRect(0,0,w,h);
-
-  // draw horizontal guides
-  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-  ctx.lineWidth = 1;
-  for(let i=0;i<=4;i++){
-    const y = (i/(4))*h;
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();
-  }
-
-  if(history.length < 2) return;
-
-  // compute min/max (we'll use fixed range 0..100)
-  const min = 0, max = 100;
-  const margin = 10;
-  const plotW = w - margin*2;
-  const plotH = h - margin*2;
-  const step = plotW / (Math.max(history.length-1,1));
-
-  // draw area gradient
-  const grd = ctx.createLinearGradient(0,0,0,h);
-  grd.addColorStop(0, 'rgba(77,124,254,0.24)');
-  grd.addColorStop(1, 'rgba(77,124,254,0.02)');
-
-  // path for area
-  ctx.beginPath();
-  for(let i=0;i<history.length;i++){
-    const x = margin + i*step;
-    const val = history[i];
-    const y = margin + (1 - (val - min) / (max - min)) * plotH;
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  }
-  // line end to bottom right then bottom left then close
-  ctx.lineTo(margin + (history.length-1)*step, margin + plotH);
-  ctx.lineTo(margin, margin + plotH);
-  ctx.closePath();
-  ctx.fillStyle = grd;
-  ctx.fill();
-
-  // draw line on top
-  ctx.beginPath();
-  for(let i=0;i<history.length;i++){
-    const x = margin + i*step;
-    const val = history[i];
-    const y = margin + (1 - (val - min) / (max - min)) * plotH;
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  }
-  ctx.strokeStyle = 'rgba(77,124,254,0.98)';
-  ctx.lineWidth = 2.5;
-  ctx.stroke();
-
-  // draw dots
-  for(let i=0;i<history.length;i++){
-    const x = margin + i*step;
-    const val = history[i];
-    const y = margin + (1 - (val - min) / (max - min)) * plotH;
-    ctx.beginPath();
-    ctx.fillStyle = 'rgba(255,255,255,0.95)';
-    ctx.arc(x,y,2.6,0,Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(77,124,254,0.9)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  }
+/* event helpers */
+function addEvent(text){
+  const t = new Date().toLocaleTimeString();
+  const li = document.createElement('li');
+  li.style.padding='8px 0'; li.style.borderBottom='1px solid rgba(255,255,255,0.02)';
+  li.textContent = `${t}  ${text}`;
+  evList.prepend(li);
+  // table row
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${t}</td><td>${text}</td><td>${currentLevel}%</td><td>—</td><td>—</td>`;
+  summaryTable.prepend(tr);
+  while(summaryTable.rows.length>10) summaryTable.deleteRow(summaryTable.rows.length-1);
 }
 
-/* resize canvas for high DPI */
+/* buttons */
+document.getElementById('pauseBtn').addEventListener('click', ()=>addEvent('Conveyor paused'));
+document.getElementById('resumeBtn').addEventListener('click', ()=>addEvent('Conveyor resumed'));
+document.getElementById('stopBtn').addEventListener('click', ()=>addEvent('Conveyor stopped'));
+
+/* flow dots speed control affects bottle movement speed */
+const dots = document.querySelectorAll('.dot');
+let trackSpeed = 0.9;
+dots.forEach((d, idx)=>{
+  d.addEventListener('click', ()=>{
+    dots.forEach(x=>x.classList.remove('active')); d.classList.add('active');
+    trackSpeed = 0.6 + idx*0.9;
+  });
+});
+
+/* animate bottles horizontally (looping) */
+const bottlesRow = document.getElementById('bottlesRow');
+let trackOffset = 0;
+function animateBottles(){
+  trackOffset -= trackSpeed;
+  // loop when too far negative
+  const width = bottlesRow.scrollWidth;
+  if(Math.abs(trackOffset) > width/2) trackOffset = 0;
+  bottlesRow.style.transform = `translateX(${trackOffset}px)`;
+  requestAnimationFrame(animateBottles);
+}
+animateBottles();
+
+/* draw trend on canvas */
+const canvas = document.getElementById('trend');
+const ctx = canvas.getContext('2d');
 function resizeCanvas(){
   const rect = canvas.getBoundingClientRect();
-  const ratio = window.devicePixelRatio || 1;
-  canvas.width = Math.floor(rect.width * ratio);
-  canvas.height = Math.floor(rect.height * ratio);
-  canvas.style.width = rect.width + 'px';
-  canvas.style.height = rect.height + 'px';
+  const ratio = devicePixelRatio || 1;
+  canvas.width = Math.floor(rect.width*ratio);
+  canvas.height = Math.floor(rect.height*ratio);
   ctx.setTransform(ratio,0,0,ratio,0,0);
-  drawGraph();
+  drawTrend();
 }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-/* initialize history with some values for graph */
-(function initHistory(){
-  history = [];
-  let base = 72;
-  for(let i=0;i<20;i++){
-    base += Math.round((Math.random()-0.5)*6);
-    history.push(Math.max(12, Math.min(98, base)));
+function drawTrend(){
+  const w = canvas.width / (devicePixelRatio||1);
+  const h = canvas.height / (devicePixelRatio||1);
+  ctx.clearRect(0,0,w,h);
+  // background
+  ctx.fillStyle = 'rgba(255,255,255,0.01)';
+  ctx.fillRect(0,0,w,h);
+
+  if(history.length<2) return;
+  const margin = 12;
+  const plotW = w - margin*2;
+  const plotH = h - margin*2;
+  const step = plotW / (history.length-1);
+
+  // area fill
+  ctx.beginPath();
+  for(let i=0;i<history.length;i++){
+    const x = margin + i*step;
+    const y = margin + (1 - history[i]/100) * plotH;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
   }
-  drawGraph();
-})();
+  ctx.lineTo(margin + (history.length-1)*step, margin+plotH);
+  ctx.lineTo(margin, margin+plotH);
+  ctx.closePath();
+  const g = ctx.createLinearGradient(0,0,0,h);
+  g.addColorStop(0,'rgba(0,188,212,0.18)'); g.addColorStop(1,'rgba(0,188,212,0.02)');
+  ctx.fillStyle = g; ctx.fill();
 
-/* ensure track copies to appear continuous (duplicate content) */
-/* If track width < viewport, duplicate bottles to make continuous feel */
-(function ensureTrackWidth(){
-  const trackEl = track;
-  // already filled with many bottles; if needed add duplicates
-  // nothing critical here, simple fallback
-})();
+  // line
+  ctx.beginPath();
+  for(let i=0;i<history.length;i++){
+    const x = margin + i*step;
+    const y = margin + (1 - history[i]/100) * plotH;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle = 'rgba(77,124,254,0.98)'; ctx.lineWidth=2.2; ctx.stroke();
 
+  // points
+  for(let i=0;i<history.length;i++){
+    const x = margin + i*step;
+    const y = margin + (1 - history[i]/100) * plotH;
+    ctx.beginPath(); ctx.arc(x,y,2.6,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,0.95)'; ctx.fill();
+    ctx.strokeStyle='rgba(77,124,254,0.9)'; ctx.lineWidth=0.8; ctx.stroke();
+  }
+}
+
+/* initialize */
+drawTrend();
 </script>
 </body>
 </html>
