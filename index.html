@@ -1,182 +1,290 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dashboard - Bottle Line (Preview)</title>
-  <style>
-    :root{--accent:#a65b2a;--bg:#fff;--card:#f7f3f0;--muted:#666}
-    body{font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#faf7f6; margin:0; color:#222}
-    .container{max-width:1100px;margin:18px auto;padding:14px}
-    .top{display:flex;align-items:center;gap:16px;border-bottom:4px solid var(--accent);padding-bottom:8px}
-    .logo{width:48px;height:48px;background:linear-gradient(135deg,#fff0, #fff0);border-radius:8px;display:inline-block;border:4px solid #a65b2a;align-self:center}
-    .top h1{margin:0;color:var(--accent);font-size:32px}
-    .main-grid{display:grid;grid-template-columns:2fr 360px;grid-auto-rows:min-content;gap:18px;margin-top:14px}
-    .conveyor{background:var(--bg);padding:12px;border-radius:12px;border:3px solid var(--accent)}
-    .video-frame{height:260px;border-radius:10px;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;position:relative;background:#fff}
-    .bottles{display:flex;gap:28px;align-items:flex-end}
-    .bottle{width:56px;height:130px;border:3px solid #333;border-radius:10px;position:relative}
-    .bottle::after{content:"";position:absolute;left:0;right:0;bottom:36px;height:54px;background:linear-gradient(#fff,#fff);opacity:0.9}
-    .bottle.dashed{box-shadow: inset 0 0 0 4px rgba(0,0,0,0.04); border-style:dashed}
-    .controls{margin-top:12px;display:flex;align-items:center;justify-content:space-between}
-    .flow-dots .dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#eee;margin-right:6px;cursor:pointer}
-    .buttons button{margin-right:8px;padding:10px 18px;border-radius:8px;border:none;background:#d5d5d5;cursor:pointer}
-    .metrics{background:var(--bg);padding:12px;border-radius:12px;border:3px solid var(--accent);height:100%}
-    .card{background:var(--card);padding:8px;margin-bottom:12px;border-radius:8px}
-    #liquid-percent{font-size:28px;font-weight:700}
-    .bar{height:12px;background:#ddd;border-radius:8px;margin-top:6px;overflow:hidden}
-    #bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#8b4d28)}
-    #event-log{list-style:none;padding:4px 8px;margin:0;max-height:120px;overflow:auto}
-    #event-log li{padding:6px 2px;border-bottom:1px solid rgba(0,0,0,0.06)}
-    .operator{margin-top:6px;font-weight:600}
-    .summary{grid-column:1/-1;background:var(--bg);padding:12px;border-radius:12px;border:3px solid var(--accent)}
-    table{width:100%;border-collapse:collapse}
-    thead th{background:#fff;padding:8px;text-align:left;border-bottom:2px solid #ddd}
-    tbody td{padding:8px;border-bottom:1px solid #eee}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Futuristic Bottle Line Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0f1724;
+    --card: rgba(255,255,255,0.06);
+    --glass: rgba(255,255,255,0.04);
+    --accent:#C06A2E; /* warm accent to echo your sample */
+    --accent-2:#8b4d28;
+    --muted: #9aa4b2;
+    --glass-border: rgba(255,255,255,0.07);
+    --glass-glow: 0 10px 30px rgba(192,106,46,0.08);
+    --glass-strong: rgba(255,255,255,0.08);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(198,120,74,0.06), transparent 6%),
+    radial-gradient(800px 400px at 90% 90%, rgba(139,77,40,0.03), transparent 8%),
+    var(--bg);
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    color:#e6eef6;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  }
+
+  .wrap{max-width:1200px;margin:22px auto;padding:20px;display:grid;grid-template-columns:1fr 360px;gap:18px}
+  header{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:12px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);box-shadow:var(--glass-glow)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:60px;height:60px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:22px;box-shadow:0 6px 20px rgba(136,84,48,0.18)}
+  h1{margin:0;font-size:26px;letter-spacing:0.6px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+
+  /* left column */
+  .panel{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);box-shadow:var(--glass-glow)}
+  .conveyor{height:320px;display:flex;flex-direction:column;gap:12px;justify-content:center;align-items:center;position:relative;overflow:hidden}
+  .camera{position:absolute;right:18px;top:18px;background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+  .belt{width:100%;height:54px;background:linear-gradient(90deg,#1b2430,#17202a);border-radius:30px;border:2px solid rgba(0,0,0,0.4);position:absolute;bottom:36px;left:0;display:flex;align-items:center;padding:0 30px;gap:24px}
+  .wheel{width:28px;height:28px;background:linear-gradient(180deg,#16202a,#0f151b);border-radius:50%;box-shadow:inset 0 -6px 10px rgba(0,0,0,0.5)}
+  .bottle-track{display:flex;gap:40px;align-items:flex-end;transform:translateX(0);will-change:transform}
+  .bottle{width:60px;height:140px;border-radius:10px;border:3px solid rgba(255,255,255,0.85);background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));position:relative;display:flex;align-items:flex-end;justify-content:center}
+  .bottle::after{content:'';position:absolute;left:8px;right:8px;bottom:38px;height:56px;background:linear-gradient(180deg,rgba(255,255,255,0.8),rgba(255,255,255,0.12));border-radius:6px;opacity:0.9}
+  .bottle.dashed{border-style:dashed;opacity:0.9}
+  .controls{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:12px}
+  .flow{display:flex;align-items:center;gap:8px}
+  .dot{width:12px;height:12px;border-radius:50%;background:#232a34;opacity:0.8;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+  .flow .dot.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 6px 20px rgba(192,106,46,0.14)}
+  .buttons{display:flex;gap:10px}
+  button.btn{padding:10px 16px;border-radius:10px;border:none;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));color:#fff;font-weight:600;cursor:pointer;box-shadow:0 6px 14px rgba(10,14,20,0.6)}
+  button.btn:active{transform:translateY(1px)}
+
+  /* right column (metrics) */
+  aside.metrics{display:flex;flex-direction:column;gap:12px;align-self:start}
+  .metric-card{padding:12px;border-radius:12px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border)}
+  .liquid{display:flex;flex-direction:column;gap:8px}
+  .liquid .value{font-size:28px;font-weight:700}
+  .progress{height:12px;background:linear-gradient(90deg,#0e1620,#141a21);border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:8px;box-shadow:0 6px 18px rgba(192,106,46,0.12);transition:width 800ms cubic-bezier(.2,.9,.3,1)}
+  .md-head{font-weight:800;font-size:18px;margin:0 0 6px 0}
+  .events{max-height:120px;overflow:auto}
+  .events li{padding:8px 6px;border-radius:8px;margin-bottom:6px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);font-size:14px}
+  .meta{color:var(--muted);font-size:13px}
+
+  /* summary table */
+  .summary{grid-column:1/-1;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006));border:1px solid var(--glass-border)}
+  table{width:100%;border-collapse:collapse;color:#e6eef6}
+  thead th{font-weight:700;text-align:left;padding:12px 10px;border-bottom:1px dashed rgba(255,255,255,0.04);color:var(--muted);font-size:13px}
+  tbody td{padding:12px 10px;border-bottom:1px solid rgba(255,255,255,0.02)}
+  .status-ok{color:#9de6b4;font-weight:700}
+  .status-bad{color:#ff9b9b;font-weight:700}
+  .thumb{width:28px;height:28px;border-radius:8px;background:linear-gradient(90deg,#9bd7ff,#8bd4ff);display:inline-block;vertical-align:middle;box-shadow:0 6px 14px rgba(27,123,158,0.12)}
+  .small-muted{font-size:12px;color:var(--muted)}
+
+  footer{grid-column:1/-1;margin-top:6px;text-align:center;color:var(--muted);font-size:13px}
+
+  /* responsiveness */
+  @media (max-width:920px){
+    .wrap{grid-template-columns:1fr; padding:12px}
+    aside.metrics{order:2}
+    .summary{order:3}
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <header class="top">
-      <div class="logo" aria-hidden="true"></div>
-      <h1>Dashboard</h1>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">S</div>
+        <div>
+          <h1>Dashboard</h1>
+          <div class="subtitle">Bottle line monitoring • live & intelligent</div>
+        </div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="small-muted">Operator</div>
+        <div style="font-weight:700">Operator Name</div>
+      </div>
     </header>
 
-    <main class="main-grid">
-      <section class="conveyor">
-        <h2>Conveyor Feed</h2>
-        <div class="video-frame" id="video-frame">
-          <div class="bottles" id="bottles">
-            <div class="bottle"></div>
-            <div class="bottle dashed"></div>
-            <div class="bottle"></div>
+    <!-- left: conveyor -->
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-weight:800">Conveyor Feed</div>
+        <div class="camera">📷 Live</div>
+      </div>
+
+      <div class="conveyor">
+        <div style="width:100%;max-width:820px;position:relative">
+          <div class="belt" id="belt">
+            <div class="bottle-track" id="track">
+              <div class="bottle"></div>
+              <div class="bottle dashed"></div>
+              <div class="bottle"></div>
+              <div class="bottle"></div>
+            </div>
           </div>
         </div>
 
         <div class="controls">
-          <label>Flow Speed:</label>
-          <div class="flow-dots" id="flow-dots">
-            <span class="dot" data-speed="1"></span>
-            <span class="dot" data-speed="2"></span>
-            <span class="dot" data-speed="3"></span>
-            <span class="dot" data-speed="4"></span>
+          <div class="flow">
+            <div style="font-weight:600">Flow Speed</div>
+            <div style="display:flex;padding-left:10px">
+              <div class="dot" data-speed="1"></div>
+              <div class="dot active" data-speed="2"></div>
+              <div class="dot" data-speed="3"></div>
+              <div class="dot" data-speed="4"></div>
+            </div>
           </div>
+
           <div class="buttons">
-            <button id="btn-pause">Pause</button>
-            <button id="btn-resume">Resume</button>
-            <button id="btn-stop">Stop</button>
+            <button class="btn" id="pause">Pause</button>
+            <button class="btn" id="resume">Resume</button>
+            <button class="btn" id="stop">Stop</button>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <aside class="metrics">
-        <h2>Metrics</h2>
-        <div class="card">
-          <h3>Liquid Level</h3>
-          <div id="liquid-percent">--%</div>
-          <div class="bar"><div id="bar-fill"></div></div>
+    <!-- right: metrics -->
+    <aside class="metrics">
+      <div class="metric-card liquid">
+        <div class="md-head">Liquid Level</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="value"><span id="lvl-val">--</span></div>
+          <div class="small-muted">Real time</div>
         </div>
+        <div class="progress"><i id="lvl-bar"></i></div>
+      </div>
 
-        <div class="card">
-          <h3>Text Detection</h3>
-          <div id="text-detection">
-            <div><strong id="label-text">--</strong></div>
-            <div>MFG Date: <span id="mfg">--</span></div>
-            <div>Expiry Date: <span id="exp">--</span></div>
-          </div>
-        </div>
+      <div class="metric-card">
+        <div class="md-head">Text Detection</div>
+        <div style="font-weight:700" id="det-label">—</div>
+        <div class="meta">MFG: <span id="mfg">—</span> • Exp: <span id="exp">—</span></div>
+      </div>
 
-        <div class="card">
-          <h3>Event Log</h3>
-          <ul id="event-log"></ul>
-        </div>
+      <div class="metric-card">
+        <div class="md-head">Event Log</div>
+        <ul class="events" id="events"></ul>
+      </div>
+    </aside>
 
-        <div class="operator">👤 Operator: <span id="operator-name">Operator 1</span></div>
-      </aside>
+    <!-- summary -->
+    <section class="summary panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-weight:800">Production Summary</div>
+        <div class="small-muted">Last updated <span id="updated">—</span></div>
+      </div>
 
-      <section class="summary">
-        <h2>Production Summary</h2>
-        <table>
-          <thead>
-            <tr><th>Time</th><th>Status</th><th>Fill %</th><th>Label</th><th>Dimensions</th></tr>
-          </thead>
-          <tbody id="summary-body"></tbody>
-        </table>
-      </section>
-    </main>
+      <table>
+        <thead>
+          <tr><th>Time</th><th>Status</th><th>Fill %</th><th>Label</th><th>Dimensions</th><th>Image</th></tr>
+        </thead>
+        <tbody id="summary-body"></tbody>
+      </table>
+    </section>
+
+    <footer>Made with ❤️ • Futuristic dashboard preview</footer>
   </div>
 
-  <script>
-    // In-page "mock server" data
-    const METRICS = {
-      liquid_level: 75,
-      text_detection: { label: "BEVERAGE", mfg_date: "2024-04-24", expiry_date: "2025-04-24" },
-      events: [
-        {id: 10, text: "Underfill bottle detected"},
-        {id: 142, text: "Label: BEVERAGE"},
-        {id: 23, text: "Conveyor resumed"}
-      ],
-      production_summary: [
-        {time:"10:42:31", status:"OK", fill:98, label:"Identified", dimensions:"10x12"},
-        {time:"10:42:30", status:"Underfilled", fill:55, label:"Not Identified", dimensions:"10x11"}
-      ]
-    };
+<script>
+  // Mock data store (replace with real API later)
+  const DATA = {
+    liquid_level: 75,
+    text_detection: { label: "BEVERAGE", mfg_date: "2024-04-24", expiry_date: "2025-04-24" },
+    events: [
+      {time:"10:42:31", text:"Underfill bottle detected"},
+      {time:"10:42:30", text:"Label: BEVERAGE"},
+      {time:"10:42:29", text:"Conveyor resumed"}
+    ],
+    production_summary:[
+      {time:"10:42:31", status:"OK", fill:98, label:"Identified", dimensions:"10x12"},
+      {time:"10:42:30", status:"Underfilled", fill:55, label:"Not Identified", dimensions:"10x11"}
+    ]
+  };
 
-    function updateUI(data){
-      document.getElementById('liquid-percent').textContent = data.liquid_level + "%";
-      document.getElementById('bar-fill').style.width = data.liquid_level + "%";
-      document.getElementById('label-text').textContent = data.text_detection.label;
-      document.getElementById('mfg').textContent = data.text_detection.mfg_date;
-      document.getElementById('exp').textContent = data.text_detection.expiry_date;
+  // UI refs
+  const lvlVal = document.getElementById('lvl-val');
+  const lvlBar = document.getElementById('lvl-bar');
+  const detLabel = document.getElementById('det-label');
+  const mfg = document.getElementById('mfg');
+  const exp = document.getElementById('exp');
+  const eventsEl = document.getElementById('events');
+  const summaryEl = document.getElementById('summary-body');
+  const updated = document.getElementById('updated');
 
-      const ul = document.getElementById('event-log');
-      ul.innerHTML = "";
-      (data.events || []).slice(0,6).forEach(e=>{
-        const li = document.createElement('li');
-        li.textContent = e.id + "  " + e.text;
-        ul.appendChild(li);
-      });
+  // initialize
+  function renderAll(){
+    // liquid
+    lvlVal.textContent = DATA.liquid_level + '%';
+    lvlBar.style.width = DATA.liquid_level + '%';
 
-      const tbody = document.getElementById('summary-body');
-      tbody.innerHTML = "";
-      (data.production_summary || []).forEach(r=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${r.time}</td><td>${r.status}</td><td>${r.fill}%</td><td>${r.label}</td><td>${r.dimensions}</td>`;
-        tbody.appendChild(tr);
-      });
-    }
+    // text
+    detLabel.textContent = DATA.text_detection.label;
+    mfg.textContent = DATA.text_detection.mfg_date;
+    exp.textContent = DATA.text_detection.expiry_date;
 
-    // Simple conveyor animation
-    let speed = 2;
-    function animateConveyor(){
-      const bottles = document.getElementById('bottles');
-      bottles.style.transform = `translateX(${(Date.now()/30 * speed) % 120 - 60}px)`;
-      requestAnimationFrame(animateConveyor);
-    }
-
-    document.getElementById('btn-pause').addEventListener('click', ()=> {
-      METRICS.events.unshift({id: Date.now(), text: "Conveyor paused (preview)"});
-      updateUI(METRICS);
-    });
-    document.getElementById('btn-resume').addEventListener('click', ()=> {
-      METRICS.events.unshift({id: Date.now(), text: "Conveyor resumed (preview)"});
-      updateUI(METRICS);
-    });
-    document.getElementById('btn-stop').addEventListener('click', ()=> {
-      METRICS.events.unshift({id: Date.now(), text: "Conveyor stopped (preview)"});
-      updateUI(METRICS);
+    // events
+    eventsEl.innerHTML = '';
+    DATA.events.slice(0,6).forEach(ev=>{
+      const li = document.createElement('li');
+      li.textContent = ev.time + " — " + ev.text;
+      eventsEl.appendChild(li);
     });
 
-    document.querySelectorAll('.flow-dots .dot').forEach((d, idx)=>{
-      d.addEventListener('click', ()=> {
-        document.querySelectorAll('.flow-dots .dot').forEach(x=>x.style.background='#eee');
-        d.style.background = '#aaa';
-        speed = idx + 1;
-      });
+    // summary
+    summaryEl.innerHTML = '';
+    DATA.production_summary.forEach(r=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r.time}</td>
+                      <td class="${r.status==='OK'?'status-ok':'status-bad'}">${r.status}</td>
+                      <td>${r.fill}%</td>
+                      <td>${r.label}</td>
+                      <td>${r.dimensions}</td>
+                      <td><span class="thumb" title="image"></span></td>`;
+      summaryEl.appendChild(tr);
     });
 
-    updateUI(METRICS);
-    animateConveyor();
-  </script>
+    updated.textContent = new Date().toLocaleTimeString();
+  }
+
+  renderAll();
+
+  // Conveyor animation
+  const track = document.getElementById('track');
+  let speed = 2; // 1..4 (controls movement)
+  function animate(){
+    const x = (Date.now()/30 * speed) % 240 - 120;
+    track.style.transform = `translateX(${x}px)`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // flow dots control
+  document.querySelectorAll('.dot').forEach((d, idx)=>{
+    d.addEventListener('click', ()=>{
+      document.querySelectorAll('.dot').forEach(n=>n.classList.remove('active'));
+      d.classList.add('active');
+      speed = idx+1;
+    });
+  });
+
+  // control buttons (local preview)
+  document.getElementById('pause').addEventListener('click', ()=>{
+    DATA.events.unshift({time: new Date().toLocaleTimeString(), text:'Conveyor paused'});
+    DATA.production_summary.unshift({time:new Date().toLocaleTimeString(), status:'Paused', fill:'—', label:'—', dimensions:'—'});
+    renderAll();
+  });
+  document.getElementById('resume').addEventListener('click', ()=>{
+    DATA.events.unshift({time: new Date().toLocaleTimeString(), text:'Conveyor resumed'});
+    renderAll();
+  });
+  document.getElementById('stop').addEventListener('click', ()=>{
+    DATA.events.unshift({time: new Date().toLocaleTimeString(), text:'Conveyor stopped'});
+    renderAll();
+  });
+
+  // small demo: simulate liquid level changes
+  setInterval(()=>{
+    DATA.liquid_level = Math.max(12, Math.round(70 + 10*Math.sin(Date.now()/7000)));
+    renderAll();
+  }, 3000);
+
+</script>
 </body>
 </html>
