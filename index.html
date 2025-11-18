@@ -1,141 +1,136 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Dashboard — Sasha Instruments</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Rubik:wght@300;400;600&display=swap" rel="stylesheet">
-
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Dashboard — Sasha Instruments (Dark Mode)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
 <style>
-  /* --- Colors and vars --- */
   :root{
-    --bg:#fff8f6;
-    --accent:#b56a2b;  /* brown accent like your image */
-    --accent-dark:#8b4d28;
-    --card:#ffffff;
-    --muted:#444;
-    --shadow: 0 6px 18px rgba(0,0,0,0.12);
-    --rounded:18px;
+    --bg-very-dark:#0b0f16;
+    --panel:#0f1720;
+    --muted:#9aa6b2;
+    --text:#e6eef6;
+    --accent:#4D7CFE; /* royal blue accent */
+    --accent-2:#2b57ff;
+    --glass: rgba(255,255,255,0.03);
+    --glass-2: rgba(255,255,255,0.02);
+    --radius:16px;
+    --shadow: 0 10px 30px rgba(13,17,23,0.6);
   }
-
-  /* --- Reset / base --- */
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);font-family:Rubik,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--muted)}
-  a{color:inherit}
-
-  /* --- Page wrapper --- */
-  .page{max-width:1150px;margin:18px auto;padding:14px}
-
-  /* --- Header with logo & title --- */
-  header.site{display:flex;align-items:center;gap:16px;border-radius:22px;border:3px solid var(--accent);padding:14px 18px;background:#fff}
-  .logo-wrap{display:flex;align-items:center;gap:12px}
-  /* simple SVG logo similar to your pic */
-  .logo{
-    width:64px;height:64px;border-radius:8px;border:3px solid var(--accent);
-    display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff,#fff0);
-    box-shadow: var(--shadow); color:var(--accent-dark); font-weight:800; font-family:Montserrat, sans-serif;
+  body{
+    margin:0;
+    min-height:100vh;
+    background: radial-gradient(800px 400px at 10% 10%, rgba(77,124,254,0.03), transparent 6%), var(--bg-very-dark);
+    color:var(--text);
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    -webkit-font-smoothing:antialiased;
   }
-  .title {font-family:Montserrat, sans-serif;font-weight:800;color:var(--accent-dark);font-size:36px; margin:0}
-  .title-sub {font-size:12px;color:var(--muted);margin-top:4px}
 
-  /* --- Layout grid --- */
-  .grid{display:grid;grid-template-columns:1fr 340px;gap:18px;margin-top:18px}
-  /* Left column panel */
-  .panel{background:var(--card);border-radius:18px;border:3px solid var(--accent);padding:12px;box-shadow:var(--shadow)}
-  .conveyor-frame{height:330px;border-radius:12px;border:2px solid #e6d9cf;background:#fff;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-  /* stylized conveyor & bottles */
-  .belt{position:absolute;left:18px;right:18px;bottom:28px;height:62px;border-radius:40px;border:3px solid rgba(0,0,0,0.12);background:#fff;display:flex;align-items:center;justify-content:space-around;padding:6px 26px}
-  .wheel{width:40px;height:40px;border-radius:50%;background:#fff;border:3px solid rgba(0,0,0,0.12)}
-  .bottle{width:62px;height:160px;border:3px solid #222;border-radius:12px;position:relative;background:linear-gradient(#fff,#fff);display:inline-block}
-  .bottle.fill:before{content:"";position:absolute;left:6px;right:6px;bottom:34px;height:64px;background:#f7f7f7;border-radius:6px}
+  .page{max-width:1150px;margin:18px auto;padding:18px}
+  header.site{
+    display:flex;align-items:center;gap:16px;padding:14px;border-radius:20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.007));
+    border:1px solid rgba(77,124,254,0.09); box-shadow: var(--shadow);
+  }
+  .logo{
+    width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,var(--accent),var(--accent-2));
+    color:#fff;font-weight:800;font-family:Montserrat, sans-serif;font-size:20px;box-shadow:0 8px 30px rgba(77,124,254,0.12);
+  }
+  .title{font-family:Montserrat, sans-serif; font-weight:800; font-size:30px; margin:0; color:var(--text)}
+  .subtitle{font-size:12px;color:var(--muted);margin-top:4px}
+
+  .grid{display:grid;grid-template-columns:1fr 360px; gap:18px; margin-top:18px}
+  .panel{
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.006));
+    border-radius:var(--radius); padding:14px; border:1px solid rgba(255,255,255,0.03);
+    box-shadow:0 8px 30px rgba(2,6,18,0.6);
+  }
+
+  /* conveyor panel */
+  .conveyor-frame{height:340px;border-radius:12px;border:2px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .video-badge{position:absolute;right:18px;top:18px;background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);font-size:14px}
+  .bottle-row{display:flex;gap:44px;align-items:flex-end;justify-content:center;height:260px;width:100%}
+  .bottle{width:66px;height:160px;border-radius:12px;border:3px solid rgba(255,255,255,0.9);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));position:relative}
+  .bottle.fill::after{content:"";position:absolute;left:8px;right:8px;bottom:36px;height:64px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.12));opacity:0.95}
   .bottle.dashed{border-style:dashed}
-  .video-icon{position:absolute;right:18px;top:18px;width:44px;height:36px;border-radius:8px;border:2px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;background:#fff}
+  .belt{position:absolute;left:18px;right:18px;bottom:34px;height:58px;border-radius:40px;border:3px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-around;padding:6px 24px;background:linear-gradient(90deg, rgba(0,0,0,0.25), rgba(255,255,255,0.01))}
+  .wheel{width:32px;height:32px;border-radius:50%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.3));border:2px solid rgba(255,255,255,0.02)}
 
-  /* controls */
-  .controls{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
-  .flow {display:flex;align-items:center;gap:8px;font-size:14px}
-  .flow .dot{width:12px;height:12px;border-radius:3px;border:2px solid #a89b92;background:#fff;display:inline-block;margin-left:6px}
-  .btn-row{display:flex;gap:16px}
-  .btn{background:#dcd6d2;border-radius:10px;padding:10px 22px;border:none;box-shadow:0 6px 0 rgba(0,0,0,0.06);font-weight:700;cursor:pointer}
+  .controls{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:12px}
+  .flow{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:600}
+  .flow .dot{width:12px;height:12px;border-radius:3px;background:#11141a;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+  .flow .dot.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 30px rgba(77,124,254,0.12)}
+  .btns{display:flex;gap:12px}
+  .btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:0;padding:10px 18px;border-radius:10px;color:var(--text);font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(2,6,18,0.6)}
+  .btn:active{transform:translateY(1px)}
 
   /* metrics column */
-  aside.metrics{display:flex;flex-direction:column;gap:12px}
-  .metric-card{background:#fff;padding:12px;border-radius:12px;border:2px solid rgba(0,0,0,0.06)}
-  .metric-title{font-weight:800;font-size:20px;margin:0 0 6px 0;color:var(--accent-dark)}
-  .liquid {display:flex;flex-direction:column;gap:8px}
-  .liquid .percent{font-size:28px;font-weight:800;color:var(--accent-dark)}
-  .progress{height:14px;border-radius:999px;background:#eee;overflow:hidden;border:1px solid rgba(0,0,0,0.03)}
-  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-dark));transition:width 700ms ease}
+  aside.metrics{display:flex;flex-direction:column;gap:12px;align-self:start}
+  .metric-card{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.004));border:1px solid rgba(255,255,255,0.02)}
+  .metric-title{font-weight:800;font-size:18px;margin:0 0 8px 0;color:var(--text)}
+  .liquid .value{font-size:28px;font-weight:800;color:var(--text)}
+  .progress{height:12px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 800ms cubic-bezier(.2,.9,.3,1);box-shadow:0 8px 22px rgba(77,124,254,0.12)}
 
-  .text-box{background:#faf5f2;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.02)}
-  .events-list{list-style:none;padding:0;margin:0}
-  .events-list li{padding:8px 6px;border-bottom:1px solid rgba(0,0,0,0.04);font-size:14px}
+  .text-box{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
+  .meta{color:var(--muted);font-size:13px}
+  .events-list{list-style:none;padding:0;margin:0;max-height:130px;overflow:auto}
+  .events-list li{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.02);font-size:14px}
 
-  .operator{display:flex;align-items:center;gap:8px;margin-top:8px;color:var(--muted);font-weight:600}
+  .operator{display:flex;align-items:center;gap:8px;margin-top:8px;color:var(--muted);font-weight:700}
 
-  /* production summary (full width) */
-  .summary{grid-column:1/-1;margin-top:18px;padding:12px;border-radius:18px;border:3px solid var(--accent);background:#fff;box-shadow:var(--shadow)}
-  .summary h3{margin:0 0 8px 0;font-family:Montserrat;font-weight:800;color:var(--accent-dark)}
-  table{width:100%;border-collapse:collapse;font-size:15px}
-  thead th{padding:12px 10px;text-align:left;border-bottom:3px solid rgba(0,0,0,0.06)}
-  tbody td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,0.04)}
+  /* production summary */
+  .summary{grid-column:1/-1;border-radius:18px;padding:14px;border:3px solid rgba(77,124,254,0.07);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.003))}
+  .summary h3{margin:0 0 10px 0;font-family:Montserrat, sans-serif;font-weight:800;color:var(--text)}
+  table{width:100%;border-collapse:collapse;color:var(--text)}
+  thead th{padding:12px 10px;text-align:left;color:var(--muted);font-weight:700;border-bottom:2px solid rgba(255,255,255,0.02)}
+  tbody td{padding:12px 10px;border-bottom:1px solid rgba(255,255,255,0.02);font-size:15px}
 
-  /* small screens */
-  @media (max-width:980px){
-    .grid{grid-template-columns:1fr; padding:0}
-    header.site{flex-direction:row;align-items:center}
-    .logo {width:52px;height:52px}
-    .title{font-size:26px}
+  /* responsive */
+  @media (max-width:920px){
+    .grid{grid-template-columns:1fr}
+    aside.metrics{order:2}
+    .summary{order:3}
   }
 </style>
 </head>
 <body>
   <div class="page">
-
-    <!-- Header -->
     <header class="site">
-      <div class="logo-wrap">
-        <div class="logo" aria-hidden="true" title="Sasha Instruments">
-          <!-- simple inline SVG mark -->
-          <svg width="44" height="44" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none">
-            <rect x="6" y="6" width="88" height="88" rx="14" stroke="#b56a2b" stroke-width="6" fill="white"/>
-            <path d="M30 28c8-8 22-8 30 0" stroke="#b56a2b" stroke-width="6" stroke-linecap="round"/>
-            <circle cx="70" cy="30" r="7" fill="#b56a2b"/>
-          </svg>
-        </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="logo" title="Sasha Instruments">S</div>
         <div>
-          <div style="display:flex;align-items:center;gap:12px">
-            <h1 class="title">Dashboard</h1>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="title">Dashboard</div>
           </div>
-          <div class="title-sub">SASHA INSTRUMENTS</div>
+          <div class="subtitle" style="color:var(--muted)">SASHA INSTRUMENTS</div>
         </div>
       </div>
 
       <div style="margin-left:auto;text-align:right">
-        <div style="font-size:13px;color:var(--muted)">Operator:</div>
-        <div style="font-weight:700;color:#222">Operator Name</div>
+        <div style="font-size:13px;color:var(--muted)">Operator</div>
+        <div style="font-weight:700;color:var(--text)">Operator Name</div>
       </div>
     </header>
 
-    <!-- grid -->
     <div class="grid">
-      <!-- left panel -->
+      <!-- Left panel -->
       <div class="panel">
         <div style="font-weight:800;font-size:20px;margin-bottom:10px">Conveyor Feed</div>
-        <div class="conveyor-frame">
-          <!-- illustration area -->
-          <div style="width:92%;max-width:820px;margin:10px auto;position:relative">
-            <div class="video-icon">📹</div>
 
-            <!-- top: bottle icons (static illustration like your image) -->
-            <div style="display:flex;justify-content:space-around;align-items:flex-end;padding:18px 30px;height:220px">
+        <div class="conveyor-frame">
+          <div class="video-badge">LIVE</div>
+
+          <div style="width:92%;max-width:820px;position:relative">
+            <div class="bottle-row" aria-hidden="true">
               <div class="bottle fill"></div>
               <div class="bottle dashed"></div>
               <div class="bottle"></div>
             </div>
 
-            <!-- conveyor belt -->
             <div class="belt" aria-hidden="true">
               <div class="wheel"></div>
               <div class="wheel"></div>
@@ -148,13 +143,13 @@
         <div class="controls">
           <div class="flow">
             <div style="font-weight:700">Flow Speed:</div>
-            <div class="dot" title="speed 1"></div>
-            <div class="dot" title="speed 2"></div>
-            <div class="dot" title="speed 3"></div>
-            <div class="dot" title="speed 4"></div>
+            <div class="dot" data-speed="1"></div>
+            <div class="dot active" data-speed="2"></div>
+            <div class="dot" data-speed="3"></div>
+            <div class="dot" data-speed="4"></div>
           </div>
 
-          <div class="btn-row">
+          <div class="btns">
             <button class="btn" id="btn-pause">Pause</button>
             <button class="btn" id="btn-resume">Resume</button>
             <button class="btn" id="btn-stop">Stop</button>
@@ -162,15 +157,15 @@
         </div>
       </div>
 
-      <!-- right metrics -->
+      <!-- Right metrics -->
       <aside class="metrics">
         <div class="metric-card">
           <div class="metric-title">Liquid Level</div>
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="percent" id="liquid-value">75%</div>
-            <div class="meta" style="font-size:13px">Real time</div>
+            <div class="liquid"><div class="value" id="liquid-value">75%</div></div>
+            <div class="meta">Real time</div>
           </div>
-          <div class="progress" style="margin-top:6px"><i id="liquid-bar" style="width:75%"></i></div>
+          <div class="progress" style="margin-top:8px"><i id="liquid-bar" style="width:75%"></i></div>
         </div>
 
         <div class="metric-card">
@@ -191,81 +186,62 @@
           </ul>
         </div>
 
-        <div class="panel" style="padding:10px;display:flex;align-items:center;gap:8px;margin-top:6px">
-          <svg width="18" height="18" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="#b56a2b" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5.333 0-8 2.667-8 4v2h16v-2c0-1.333-2.667-4-8-4z"/></svg>
+        <div class="panel" style="display:flex;align-items:center;gap:8px;padding:10px;margin-top:6px">
+          <svg width="18" height="18" viewBox="0 0 24 24" style="flex-shrink:0"><path fill="url(#g)" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5.333 0-8 2.667-8 4v2h16v-2c0-1.333-2.667-4-8-4z"/></svg>
           <div style="font-weight:700">Operator: Operator 1</div>
         </div>
       </aside>
 
-      <!-- production summary full width -->
+      <!-- Summary -->
       <section class="summary">
         <h3>Production Summary</h3>
-
         <table aria-label="production summary">
           <thead>
             <tr><th>Time</th><th>Status</th><th>Fill %</th><th>Label</th><th>Dimensions</th><th>Image</th></tr>
           </thead>
           <tbody id="summary-body">
-            <tr>
-              <td>10:42:31</td>
-              <td>OK</td>
-              <td>98%</td>
-              <td>Identified</td>
-              <td>10x12</td>
-              <td><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:linear-gradient(90deg,#8bd4ff,#63c4ff);box-shadow:0 4px 10px rgba(99,196,255,0.12)"></span></td>
-            </tr>
-            <tr>
-              <td>10:42:30</td>
-              <td>Underfilled</td>
-              <td>55%</td>
-              <td>Not Identified</td>
-              <td>10x11</td>
-              <td><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:linear-gradient(90deg,#8bd4ff,#63c4ff);box-shadow:0 4px 10px rgba(99,196,255,0.12)"></span></td>
-            </tr>
+            <tr><td>10:42:31</td><td>OK</td><td>98%</td><td>Identified</td><td>10x12</td><td><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:linear-gradient(90deg,#88bfff,#4d7cfe);box-shadow:0 6px 14px rgba(77,124,254,0.12)"></span></td></tr>
+            <tr><td>10:42:30</td><td>Underfilled</td><td>55%</td><td>Not Identified</td><td>10x11</td><td><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:linear-gradient(90deg,#88bfff,#4d7cfe);box-shadow:0 6px 14px rgba(77,124,254,0.12)"></span></td></tr>
           </tbody>
         </table>
       </section>
     </div>
-
   </div>
 
 <script>
-  // interactive but local-only (preview)
+  // local preview interactions and animation
+  const dots = document.querySelectorAll('.flow .dot');
+  dots.forEach((d,i)=>d.addEventListener('click', ()=> {
+    dots.forEach(x=>x.classList.remove('active'));
+    d.classList.add('active');
+  }));
+
   const liquidBar = document.getElementById('liquid-bar');
   const liquidValue = document.getElementById('liquid-value');
-  const eventsList = document.getElementById('events');
-  const summaryBody = document.getElementById('summary-body');
+  const events = document.getElementById('events');
+  const summary = document.getElementById('summary-body');
 
-  // flow dots effect (visual only)
-  document.querySelectorAll('.flow .dot').forEach((d, idx)=>{
-    d.addEventListener('click', ()=>{
-      document.querySelectorAll('.flow .dot').forEach(n=>n.style.background='#fff');
-      d.style.background = 'linear-gradient(90deg, var(--accent), var(--accent-dark))';
-    });
-  });
-
-  // buttons: simulate events and add entry to table
   document.getElementById('btn-pause').addEventListener('click', ()=>{
     const t = new Date().toLocaleTimeString();
-    const li = document.createElement('li'); li.textContent = '—  ' + t + '  Conveyor paused'; eventsList.prepend(li);
+    const li = document.createElement('li'); li.textContent = '— ' + t + ' Conveyor paused'; events.prepend(li);
     const tr = document.createElement('tr'); tr.innerHTML = `<td>${t}</td><td>Paused</td><td>—</td><td>—</td><td>—</td><td>—</td>`;
-    summaryBody.prepend(tr);
+    summary.prepend(tr);
   });
   document.getElementById('btn-resume').addEventListener('click', ()=>{
     const t = new Date().toLocaleTimeString();
-    const li = document.createElement('li'); li.textContent = '—  ' + t + '  Conveyor resumed'; eventsList.prepend(li);
+    const li = document.createElement('li'); li.textContent = '— ' + t + ' Conveyor resumed'; events.prepend(li);
   });
   document.getElementById('btn-stop').addEventListener('click', ()=>{
     const t = new Date().toLocaleTimeString();
-    const li = document.createElement('li'); li.textContent = '—  ' + t + '  Conveyor stopped'; eventsList.prepend(li);
+    const li = document.createElement('li'); li.textContent = '— ' + t + ' Conveyor stopped'; events.prepend(li);
   });
 
-  // animate liquid level slightly
-  setInterval(()=>{
-    const val = 60 + Math.round(Math.sin(Date.now()/6000) * 12);
+  // slight liquid level animation for realism
+  setInterval(()=> {
+    const val = 70 + Math.round(Math.sin(Date.now()/6000) * 10);
     liquidBar.style.width = val + '%';
     liquidValue.textContent = val + '%';
-  }, 3000);
+  }, 2500);
 </script>
 </body>
 </html>
